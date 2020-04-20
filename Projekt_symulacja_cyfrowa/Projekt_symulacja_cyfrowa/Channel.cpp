@@ -19,3 +19,8 @@ void Channel::DeleteCurrentPackage()
 {
 	current_package_ = nullptr;
 }
+
+bool Channel::GetCheckingTheChannelBusy()
+{
+	return channel_availability_;
+}

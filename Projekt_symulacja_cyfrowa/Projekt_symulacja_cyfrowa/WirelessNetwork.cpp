@@ -38,6 +38,11 @@ void WirelessNetwork::SentPackageToRetransmission(Package* get_package_to_retran
 	base_stations_[get_package_to_retransmission->ReturnIdBaseStation()]->SetPackageToRetransmission(get_package_to_retransmission);
 }
 
+bool WirelessNetwork::GetCheckingTheChannelBusy()
+{
+	return channel_->GetCheckingTheChannelBusy();
+}
+
 
 
 

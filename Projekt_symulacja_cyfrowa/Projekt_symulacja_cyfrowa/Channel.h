@@ -10,6 +10,7 @@ public:
 	~Channel() = default; // default desctructor
 	Package* ReturnCurrentPackage();
 	void DeleteCurrentPackage();
+	bool GetCheckingTheChannelBusy();
 private:
 	bool channel_availability_; // variable determines if a channel is free
 	bool collision_checking_; // variable determines whether a collision has occurred

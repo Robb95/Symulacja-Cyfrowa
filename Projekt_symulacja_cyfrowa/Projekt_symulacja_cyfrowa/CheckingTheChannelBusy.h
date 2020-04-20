@@ -5,12 +5,14 @@
 class CheckingTheChannelBusy
 {
 public:
-	CheckingTheChannelBusy();
+	CheckingTheChannelBusy(WirelessNetwork* network);
 	~CheckingTheChannelBusy();
+	void Execute();
 	double GetTime();
 	void Print();
 private:
 	double time_;
+	WirelessNetwork* network_;
 };
 #endif
 

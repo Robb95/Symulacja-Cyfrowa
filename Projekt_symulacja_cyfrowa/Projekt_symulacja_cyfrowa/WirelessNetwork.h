@@ -13,6 +13,7 @@ public:
     int ReturnkAmountOfRetransmision();
     Channel* ReturnChannel();
     void SentPackageToRetransmission(Package* get_package_to_retransmission);
+    bool GetCheckingTheChannelBusy();
 private:
     double system_time_; // variable describing the overall system time
     const int kNumberOfStations=20; // constant describing the number of base stations
