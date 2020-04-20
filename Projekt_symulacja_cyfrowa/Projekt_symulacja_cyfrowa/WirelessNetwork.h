@@ -10,6 +10,9 @@ public:
     WirelessNetwork(); // constructor
     ~WirelessNetwork() = default; // default desctructor
     void GenerateSentPackage(Package* packet, int id_base_station);
+    int ReturnkAmountOfRetransmision();
+    Channel* ReturnChannel();
+    void SentPackageToRetransmission(Package* get_package_to_retransmission);
 private:
     double system_time_; // variable describing the overall system time
     const int kNumberOfStations=20; // constant describing the number of base stations

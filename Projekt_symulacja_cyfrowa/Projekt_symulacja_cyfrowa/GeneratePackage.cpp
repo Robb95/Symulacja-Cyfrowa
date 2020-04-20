@@ -11,10 +11,11 @@ GeneratePackage::GeneratePackage(WirelessNetwork* network, double time,int id_ba
 
 void GeneratePackage::Execute()
 {
-	Package* packet = new Package();
+	Package* packet = new Package(id_base_station_);
 	network_->GenerateSentPackage(packet,id_base_station_);
 	TimeEvent* genarte_new_package = new GeneratePackage(network_, 5, id_base_station_, event_);
 	event_->AddTimeEvent(genarte_new_package);
+
 
 }
 

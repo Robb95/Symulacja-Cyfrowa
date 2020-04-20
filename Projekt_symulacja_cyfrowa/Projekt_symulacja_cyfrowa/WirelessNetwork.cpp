@@ -23,5 +23,22 @@ void WirelessNetwork::GenerateSentPackage(Package* packet, int id_base_station)
 	base_stations_[id_base_station]->AddToBaseStation(packet);
 }
 
+int WirelessNetwork::ReturnkAmountOfRetransmision()
+{
+	return kAmountOfRetransmission;
+}
+
+Channel* WirelessNetwork::ReturnChannel()
+{
+	return channel_;
+}
+
+void WirelessNetwork::SentPackageToRetransmission(Package* get_package_to_retransmission)
+{
+	base_stations_[get_package_to_retransmission->ReturnIdBaseStation()]->SetPackageToRetransmission(get_package_to_retransmission);
+}
+
+
+
 
 
