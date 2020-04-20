@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pliki źródłowe">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="TimeEvent.h">
+      <UniqueIdentifier>{9d92579e-ce78-410c-99eb-93f6bb7143f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TimeEvent.cpp">
+      <UniqueIdentifier>{26a19e5d-81aa-4797-a5b5-f8e3a443aca6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Projekt_symulacja_cyfrowa.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="WirelessNetwork.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseStation.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="ReceivingStation.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="Channel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="Package.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratePackage.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorTER.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeEvent.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckingChannelStatusAfterRetransmission.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckingTheChannelBusy.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckingTheSlotBusy.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EndOfPackageTransmission.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeEventList.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WirelessNetwork.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseStation.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="ReceivingStation.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Channel.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Package.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeEvent.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratePackage.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorTER.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckingChannelStatusAfterRetransmission.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckingTheChannelBusy.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckingTheSlotBusy.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="EndOfPackageTransmission.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeEventList.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
