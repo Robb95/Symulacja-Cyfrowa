@@ -43,6 +43,12 @@ bool WirelessNetwork::GetCheckingTheChannelBusy()
 	return channel_->GetCheckingTheChannelBusy();
 }
 
+void WirelessNetwork::SentPackageBaseStationToRecivingStation(int id_base_station)
+{
+	tmp=base_stations_[id_base_station]->SentPackageBaseStationToReceivingStation();
+	channel_->AddPackageToChannel(tmp);
+}
+
 
 
 

@@ -2,18 +2,27 @@
 
 
 
-CheckingTheChannelBusy::CheckingTheChannelBusy(WirelessNetwork* network)
+CheckingTheChannelBusy::CheckingTheChannelBusy(WirelessNetwork* network, int id_base_station)
 {
 	network_ = network;
+	id_base_station_ = id_base_station;
 }
 
 void CheckingTheChannelBusy::Execute()
 {
-	if (network_->GetCheckingTheChannelBusy())
+	if (network_->GetCheckingTheChannelBusy())   //KANAL WOLNY
 	{
+		PT_ = rand()%10+1;
+		if (PT_ <= 4) //wysylamy
+		{
+			network_->SentPackageBaseStationToRecivingStation(id_base_station_);
+		}
+		else //nie wysylamy, planujemy wystapienie zdarzenia wolnej szczeliny
+		{
 
+		}
 	}
-	else // zaplanuj kolejne zdarzenie czasowe (sprawdzenie zajetosci kanalu)
+	else // zaplanuj kolejne zdarzenie czasowe (sprawdzenie zajetosci kanalu) KANAL ZAJETY
 	{
 
 	}

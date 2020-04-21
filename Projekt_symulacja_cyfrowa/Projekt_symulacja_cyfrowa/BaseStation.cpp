@@ -15,3 +15,10 @@ void BaseStation::SetPackageToRetransmission(Package* get_package_to_retransmiss
 {
 	get_package_to_retransmission_ = get_package_to_retransmission;
 }
+
+Package* BaseStation::SentPackageBaseStationToReceivingStation()
+{
+	tmp= package_.front();
+	package_.pop();
+	return tmp;
+}

@@ -11,6 +11,7 @@ public:
 	Package* ReturnCurrentPackage();
 	void DeleteCurrentPackage();
 	bool GetCheckingTheChannelBusy();
+	void AddPackageToChannel(Package* current_package);
 private:
 	bool channel_availability_; // variable determines if a channel is free
 	bool collision_checking_; // variable determines whether a collision has occurred

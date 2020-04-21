@@ -24,3 +24,8 @@ bool Channel::GetCheckingTheChannelBusy()
 {
 	return channel_availability_;
 }
+
+void Channel::AddPackageToChannel(Package* current_package)
+{
+	current_package_ = current_package;
+}

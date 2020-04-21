@@ -1,5 +1,7 @@
 #include "CheckingChannelStatusAfterRetransmission.h"
 
+
+
 double CheckingChannelStatusAfterRetransmission::GetTime()
 {
 	return time_;
