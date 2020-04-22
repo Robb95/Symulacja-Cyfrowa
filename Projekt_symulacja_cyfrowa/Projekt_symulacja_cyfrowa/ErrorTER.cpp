@@ -23,11 +23,11 @@ void ErrorTER::Execute()
 	if (tmp2->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision())
 	{
 		tmp2->IncrementLR();
-		network_->SentPackageToRetransmission(tmp2);
+		network_->SentPackageToRetransmission(tmp2); //zaplanuj kolejne zdarzenie czasowe, wygenerowanie CRP
 	}
 	else
 	{
-		delete tmp2;
+		delete tmp2;    //zdarzenie warunkowe usuwanie pakietu po nadmiernej ilosci retransmisji
 		cerr << "The package deleted [Package retransmission limit exceeded]" << endl;
 	}
 }

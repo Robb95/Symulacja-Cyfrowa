@@ -48,19 +48,16 @@
     <ClCompile Include="TimeEvent.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="CheckingChannelStatusAfterRetransmission.cpp">
-      <Filter>TimeEvent.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="CheckingTheChannelBusy.cpp">
-      <Filter>TimeEvent.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckingTheSlotBusy.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
     <ClCompile Include="EndOfPackageTransmission.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
     <ClCompile Include="TimeEventList.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckingTheSlotBusy.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,19 +86,16 @@
     <ClInclude Include="ErrorTER.h">
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
-    <ClInclude Include="CheckingChannelStatusAfterRetransmission.h">
-      <Filter>TimeEvent.h</Filter>
-    </ClInclude>
     <ClInclude Include="CheckingTheChannelBusy.h">
-      <Filter>TimeEvent.h</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckingTheSlotBusy.h">
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
     <ClInclude Include="EndOfPackageTransmission.h">
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
     <ClInclude Include="TimeEventList.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckingTheSlotBusy.h">
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
   </ItemGroup>

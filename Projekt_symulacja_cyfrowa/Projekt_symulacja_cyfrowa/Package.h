@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PACKAGE_H
+#define PACKAGE_H
+
 class Package
 {
 public:
@@ -15,4 +17,5 @@ private:
 	double average_waiting_time_; // variable storing the average package wait time
 	int id_base_station_;
 };
+#endif
 

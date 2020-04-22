@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BASESTATION_H
+#define BASESTATION_H
 #include <queue>
 #include "Package.h"
 
@@ -6,11 +7,13 @@ using namespace std;
 class BaseStation
 {
 public:
-    BaseStation();  // constructor
+    BaseStation(int id);  // constructor
     ~BaseStation() = default; // default desctructor
     void AddToBaseStation(Package* packet);
     void SetPackageToRetransmission(Package* get_package_to_retransmission);
     Package* SentPackageBaseStationToReceivingStation();
+    void CheckACK();
+    
 private:
     int id_base_station_; // variable describing the number of the base station
     const int kCTIZ_time_=5; // constant describing ACK pickup time
@@ -19,6 +22,6 @@ private:
     bool start_transmiting_; // variable specifying the start of transmission by the base station
     Package* get_package_to_retransmission_; // pointer one the package ready to rertansmission
     Package* tmp;
-
 };
+#endif
 

@@ -19,7 +19,7 @@ void CheckingTheChannelBusy::Execute()
 		}
 		else //nie wysylamy, planujemy wystapienie zdarzenia wolnej szczeliny
 		{
-
+			network_->AddToBaseStationWaitingNewSlot(id_base_station_);
 		}
 	}
 	else // zaplanuj kolejne zdarzenie czasowe (sprawdzenie zajetosci kanalu) KANAL ZAJETY

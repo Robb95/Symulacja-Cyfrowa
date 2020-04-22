@@ -1,8 +1,8 @@
 #include "BaseStation.h"
 
-BaseStation::BaseStation()
+BaseStation::BaseStation(int id)
 {
-	id_base_station_ = 0;
+	id_base_station_ = id;
 }
 
 void BaseStation::AddToBaseStation(Package* packet)

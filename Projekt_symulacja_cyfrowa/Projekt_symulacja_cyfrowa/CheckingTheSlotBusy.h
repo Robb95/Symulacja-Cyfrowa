@@ -5,12 +5,17 @@
 class CheckingTheSlotBusy
 {
 public:
-	CheckingTheSlotBusy();
+	CheckingTheSlotBusy(WirelessNetwork* network);
 	~CheckingTheSlotBusy();
+	void Ececute();
 	double GetTime();
 	void Print();
 private:
 	double time_;
+	WirelessNetwork* network_;
+	int PT_;
+	
+	
 };
 #endif
 

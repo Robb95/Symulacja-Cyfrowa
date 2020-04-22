@@ -149,7 +149,6 @@
   <ItemGroup>
     <ClCompile Include="BaseStation.cpp" />
     <ClCompile Include="Channel.cpp" />
-    <ClCompile Include="CheckingChannelStatusAfterRetransmission.cpp" />
     <ClCompile Include="CheckingTheChannelBusy.cpp" />
     <ClCompile Include="CheckingTheSlotBusy.cpp" />
     <ClCompile Include="EndOfPackageTransmission.cpp" />
@@ -165,7 +164,6 @@
   <ItemGroup>
     <ClInclude Include="BaseStation.h" />
     <ClInclude Include="Channel.h" />
-    <ClInclude Include="CheckingChannelStatusAfterRetransmission.h" />
     <ClInclude Include="CheckingTheChannelBusy.h" />
     <ClInclude Include="CheckingTheSlotBusy.h" />
     <ClInclude Include="EndOfPackageTransmission.h" />
