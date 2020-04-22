@@ -7,8 +7,8 @@
 class ErrorTER:public TimeEvent
 {
 public:
-	ErrorTER(WirelessNetwork* network);
-	~ErrorTER();
+	ErrorTER(WirelessNetwork* network,double time);
+	~ErrorTER() = default;
 	double GetTime();
 	void Print();
 	void Execute();

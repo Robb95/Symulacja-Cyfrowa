@@ -1,8 +1,10 @@
 #include "ErrorTER.h"
 
-ErrorTER::ErrorTER(WirelessNetwork* network)
+
+ErrorTER::ErrorTER(WirelessNetwork* network, double time)
 {
 	network_ = network;
+	time_ = time;
 }
 
 double ErrorTER::GetTime()

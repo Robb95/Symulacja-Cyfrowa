@@ -5,8 +5,8 @@
 class CheckingTheSlotBusy
 {
 public:
-	CheckingTheSlotBusy(WirelessNetwork* network);
-	~CheckingTheSlotBusy();
+	CheckingTheSlotBusy(WirelessNetwork* network,double time);
+	~CheckingTheSlotBusy() = default;
 	void Ececute();
 	double GetTime();
 	void Print();

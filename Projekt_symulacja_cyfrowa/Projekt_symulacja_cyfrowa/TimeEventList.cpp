@@ -5,13 +5,14 @@ void TimeEventList::AddTimeEvent(TimeEvent* event)
 	if (first_ == nullptr)
 	{
 		first_ = last_= event;
-		
+		return;
 	}
 	else if (last_->GetTime() < event->GetTime())
 	{
 		last_->next = event;
 		event->previous = last_;
 		last_ = event;
+		return;
 	}
 
 	temp = first_;
@@ -35,7 +36,7 @@ TimeEvent* TimeEventList::GetFirst()
 	}
 }
 
-void TimeEventList::PrintTimeEventList(TimeEvent* event)
+void TimeEventList::PrintTimeEventList()
 {
 	temp = first_;
 	while (temp !=last_)

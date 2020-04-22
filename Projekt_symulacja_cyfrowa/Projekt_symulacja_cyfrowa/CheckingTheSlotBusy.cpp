@@ -1,5 +1,11 @@
 #include "CheckingTheSlotBusy.h"
 
+CheckingTheSlotBusy::CheckingTheSlotBusy(WirelessNetwork* network, double time)
+{
+	network_ = network;
+	time_ = time;
+}
+
 void CheckingTheSlotBusy::Ececute()
 {
 	if (network_->GetCheckingTheChannelBusy())
@@ -65,6 +71,11 @@ void CheckingTheSlotBusy::Ececute()
 	{
 
 	}
+}
+
+double CheckingTheSlotBusy::GetTime()
+{
+	return time_;
 }
 
 void CheckingTheSlotBusy::Print()

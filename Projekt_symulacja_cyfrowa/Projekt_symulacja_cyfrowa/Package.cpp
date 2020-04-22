@@ -4,7 +4,7 @@
 
 Package::Package(int id_base_station)
 {
-	id_base_station_ = id_base_station; //naszym celem jest okreslenie id stacji nadawczej do ktorej nalezy wyslac pakiet do retransmisji
+	id_base_station_ = id_base_station; 
 }
 
 int Package::ReturnNumberCurrentRetransmission()

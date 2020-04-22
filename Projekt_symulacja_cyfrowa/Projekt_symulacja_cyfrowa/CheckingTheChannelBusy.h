@@ -6,7 +6,7 @@ class CheckingTheChannelBusy
 {
 public:
 	CheckingTheChannelBusy(WirelessNetwork* network,int id_base_station);
-	~CheckingTheChannelBusy();
+	~CheckingTheChannelBusy() = default;
 	void Execute();
 	double GetTime();
 	void Print();

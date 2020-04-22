@@ -12,7 +12,7 @@ public:
     void AddToBaseStation(Package* packet);
     void SetPackageToRetransmission(Package* get_package_to_retransmission);
     Package* SentPackageBaseStationToReceivingStation();
-    void CheckACK();
+   
     
 private:
     int id_base_station_; // variable describing the number of the base station

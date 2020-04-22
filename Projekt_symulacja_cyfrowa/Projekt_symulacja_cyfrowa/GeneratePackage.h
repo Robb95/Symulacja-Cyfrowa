@@ -7,7 +7,7 @@ class GeneratePackage: public TimeEvent
 {
 public:
 	GeneratePackage(WirelessNetwork* network,double time, int id_base_station, TimeEventList* event);
-	~GeneratePackage();
+	~GeneratePackage()=default;
 	void Execute();
 	double GetTime();
 	void Print();

@@ -1,7 +1,6 @@
 #include "CheckingTheChannelBusy.h"
 
 
-
 CheckingTheChannelBusy::CheckingTheChannelBusy(WirelessNetwork* network, int id_base_station)
 {
 	network_ = network;
@@ -26,6 +25,11 @@ void CheckingTheChannelBusy::Execute()
 	{
 
 	}
+}
+
+double CheckingTheChannelBusy::GetTime()
+{
+	return time_;
 }
 
 void CheckingTheChannelBusy::Print()

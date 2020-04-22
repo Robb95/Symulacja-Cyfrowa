@@ -5,8 +5,8 @@
 class EndOfPackageTransmission
 {
 public:
-	EndOfPackageTransmission(WirelessNetwork* network);
-	~EndOfPackageTransmission();
+	EndOfPackageTransmission(WirelessNetwork* network,double time);
+	~EndOfPackageTransmission() = default;
 	void Execute();
 	double GetTime();
 	void Print();
