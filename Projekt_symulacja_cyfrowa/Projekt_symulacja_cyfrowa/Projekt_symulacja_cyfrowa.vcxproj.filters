@@ -60,6 +60,12 @@
     <ClCompile Include="CheckingTheSlotBusy.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
+    <ClCompile Include="FinishSendingAckChannel.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckAckMessage.cpp">
+      <Filter>TimeEvent.cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WirelessNetwork.h">
@@ -96,6 +102,12 @@
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
     <ClInclude Include="CheckingTheSlotBusy.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckAckMessage.h">
+      <Filter>TimeEvent.h</Filter>
+    </ClInclude>
+    <ClInclude Include="FinishSendingAckChannel.h">
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,11 +11,19 @@ GeneratePackage::GeneratePackage(WirelessNetwork* network, double time,int id_ba
 
 void GeneratePackage::Execute()
 {
-	Package* packet = new Package(id_base_station_);
+	// TUTAJ DODAÆ MECHANIZM ODPOWIEDNIEGO WYSWIETALANA
+	cerr << "Generowanie pakietu w staci o id: " << id_base_station_ << " czas: " << time_ << endl;
+	Package* packet = new Package(id_base_station_,network_->GetIdGeneratedPackage());
 	network_->GenerateSentPackage(packet,id_base_station_);
-	TimeEvent* genarte_new_package = new GeneratePackage(network_, 5, id_base_station_, event_);
+	TimeEvent* genarte_new_package = new GeneratePackage(network_, time_+5, id_base_station_, event_);
 	event_->AddTimeEvent(genarte_new_package);
-
+	//zaplanowaæ zdarenie czasowe sprawdzenia zajêtoœci kana³u. Przy wygenerwoaniu pakietu sprawdzenie kana³u odbywa siê natychmiastowo
+	if (!(network_->ChechkBaseStationCheckingChannel(id_base_station_)))// funkcja sprawdzaj¹ca czy dana stacja bazowa ju¿ sprawdza kana³
+	{
+		network_->AddBaseStationCheckingChannel(id_base_station_);
+		genarte_new_package = new CheckingTheChannelBusy(network_, event_, id_base_station_, time_, false);
+		event_->AddTimeEvent(genarte_new_package);
+	}
 
 }
 
@@ -26,5 +34,5 @@ double GeneratePackage::GetTime()
 
 void GeneratePackage::Print()
 {
-	cerr << " Generate package: "<< time_ << endl;
+	cerr << " Generate package: "<< time_ << "Id base station: "<< id_base_station_ << endl;
 }

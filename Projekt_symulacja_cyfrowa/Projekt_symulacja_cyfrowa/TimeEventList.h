@@ -11,6 +11,6 @@ public:
 private:
 	TimeEvent* first_;
 	TimeEvent* last_;
-	TimeEvent* temp;
+	TimeEvent* temp_;
 };
 #endif

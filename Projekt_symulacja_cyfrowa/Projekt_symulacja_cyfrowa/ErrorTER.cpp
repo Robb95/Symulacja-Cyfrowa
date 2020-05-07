@@ -20,8 +20,8 @@ void ErrorTER::Print()
 void ErrorTER::Execute()
 {
 	Channel* tmp = network_->ReturnChannel();
-	Package* tmp2 = tmp->ReturnCurrentPackage();
-	tmp->DeleteCurrentPackage();
+	Package* tmp2 = tmp->ReturnCurrentPackage(1);
+	tmp->DeleteCurrentPackage(1);// œmieci !
 	if (tmp2->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision())
 	{
 		tmp2->IncrementLR();

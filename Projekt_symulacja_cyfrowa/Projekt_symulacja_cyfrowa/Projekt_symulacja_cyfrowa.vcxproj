@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="BaseStation.cpp" />
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="CheckAckMessage.cpp" />
     <ClCompile Include="CheckingTheChannelBusy.cpp" />
     <ClCompile Include="CheckingTheSlotBusy.cpp" />
     <ClCompile Include="EndOfPackageTransmission.cpp" />
     <ClCompile Include="ErrorTER.cpp" />
+    <ClCompile Include="FinishSendingAckChannel.cpp" />
     <ClCompile Include="GeneratePackage.cpp" />
     <ClCompile Include="Package.cpp" />
     <ClCompile Include="Projekt_symulacja_cyfrowa.cpp" />
@@ -164,10 +166,12 @@
   <ItemGroup>
     <ClInclude Include="BaseStation.h" />
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="CheckAckMessage.h" />
     <ClInclude Include="CheckingTheChannelBusy.h" />
     <ClInclude Include="CheckingTheSlotBusy.h" />
     <ClInclude Include="EndOfPackageTransmission.h" />
     <ClInclude Include="ErrorTER.h" />
+    <ClInclude Include="FinishSendingAckChannel.h" />
     <ClInclude Include="GeneratePackage.h" />
     <ClInclude Include="Package.h" />
     <ClInclude Include="ReceivingStation.h" />

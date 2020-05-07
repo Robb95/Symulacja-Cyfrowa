@@ -16,3 +16,8 @@ int ReceivingStation::AddACK()
 {
 	return id_receiving_station_;
 }
+
+Package* ReceivingStation::SendToRetransmission()
+{
+  return receiving_package_;
+}

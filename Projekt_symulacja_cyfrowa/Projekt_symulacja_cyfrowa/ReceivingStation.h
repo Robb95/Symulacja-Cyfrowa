@@ -8,6 +8,7 @@ public:
     ~ReceivingStation() = default; // default desctructor
     void EndOfTransmitting(Package* receiving_package);
     int AddACK();
+    Package* SendToRetransmission();
 private:
     Package* receiving_package_;
     int id_receiving_station_; //variable describing id of the receiving station

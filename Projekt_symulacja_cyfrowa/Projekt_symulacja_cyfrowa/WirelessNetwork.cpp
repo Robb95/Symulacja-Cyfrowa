@@ -2,6 +2,7 @@
 
 WirelessNetwork::WirelessNetwork(int type_info, int type_print)
 {
+	id_of_the_currently_generated_package_ = 0;
 	for (int i = 0; i < kNumberOfStations_; i++)
 	{
 		BaseStation* base_station_tmp = new BaseStation(i);
@@ -145,6 +146,87 @@ void WirelessNetwork::PrintInfoAboutWirelessNetwork()
 			save.close();
 		}
 	}
+}
+
+int WirelessNetwork::GetIdGeneratedPackage()
+{
+	if(id_of_the_currently_generated_package_!=0)
+	{ 
+	return id_of_the_currently_generated_package_;
+	}
+	else
+	{
+		id_of_the_currently_generated_package_++;
+		return 0;
+	}
+}
+
+int WirelessNetwork::GetAmountNumberOfStations()
+{
+	return kNumberOfStations_;
+}
+
+double WirelessNetwork::GetSystemTime()
+{
+	return system_time_;
+}
+
+void WirelessNetwork::SetSystemTime(double time)
+{
+	system_time_ = time;
+}
+
+void WirelessNetwork::AddBaseStationCheckingChannel(int id)
+{
+	base_station_checking_channel_busy_.push_back(id);
+}
+
+bool WirelessNetwork::ChechkBaseStationCheckingChannel(int id)
+{
+	for (unsigned i = 0; i < base_station_checking_channel_busy_.size(); i++)
+	{
+		if (base_station_checking_channel_busy_[i] == id)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void WirelessNetwork::DeleteBaseStationCheckingChannel(int id)
+{
+	for (unsigned i = 0; i < base_station_checking_channel_busy_.size(); i++)
+	{
+		if (base_station_checking_channel_busy_[i] == id)
+		{
+			base_station_checking_channel_busy_.erase(base_station_checking_channel_busy_.begin() + i);
+		}
+	}
+}
+
+double WirelessNetwork::GetCSCTime()
+{
+  return CSC_time_;
+}
+
+void WirelessNetwork::AddPackageToReceivingStation(int id,Package* packet)
+{
+	receiving_station_[id]->EndOfTransmitting(packet);
+}
+
+void WirelessNetwork::SetInfoAboutACKInReceivingStation(int id)
+{
+	base_stations_[id]->SetAckMessage();
+}
+
+bool WirelessNetwork::GetInfoAboutACKInReceivingStation(int id)
+{
+	return base_stations_[id]->GetAckMessage();
+}
+
+Package* WirelessNetwork::GetPackageTer(int id)
+{
+	return receiving_station_[id]->SendToRetransmission();
 }
 
 

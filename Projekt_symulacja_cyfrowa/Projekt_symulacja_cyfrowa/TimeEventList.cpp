@@ -7,43 +7,52 @@ void TimeEventList::AddTimeEvent(TimeEvent* event)
 		first_ = last_= event;
 		return;
 	}
-	else if (last_->GetTime() < event->GetTime())
+	else if (first_->GetTime() >= event->GetTime())
 	{
-		last_->next = event;
-		event->previous = last_;
+		event->next_ = first_;
+		first_->previous_ = event;
+		first_ = event;
+
+	}
+	else if (last_->GetTime() <= event->GetTime())
+	{
+		last_->next_ = event;
+		event->previous_ = last_;
 		last_ = event;
 		return;
 	}
 
-	temp = first_;
-	while (temp->next-> GetTime() < event->GetTime())
-	{
-		temp = temp->next;
+	else {
+		temp_ = first_;
+		while (temp_->GetTime() <= event->GetTime())
+		{
+			temp_ = temp_->next_;
+		}
+		event->next_ = temp_;
+		event->previous_ = temp_->previous_;
+		temp_->previous_->next_ = event;
+		temp_->previous_ = event;
 	}
-	temp->next->previous = event;
-	event->next = temp->next;
-	event->previous = temp;
-	temp->next = event;
 }
 
 TimeEvent* TimeEventList::GetFirst()
 {
 	if (first_ != nullptr)
 	{
-		temp = first_;
-		first_= first_->next;
-		return temp;
+		temp_ = first_;
+		first_= first_->next_;
+		return temp_;
 	}
 }
 
 void TimeEventList::PrintTimeEventList()
 {
-	temp = first_;
-	while (temp !=last_)
+	temp_ = first_;
+	while (temp_ !=last_)
 	{
-		temp->Print();
-		temp = temp->next;
+		temp_->Print();
+		temp_ = temp_->next_;
 	}
-	temp -> Print();
+	temp_ -> Print();
 	
 }

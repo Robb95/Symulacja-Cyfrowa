@@ -1,75 +1,68 @@
 #include "CheckingTheSlotBusy.h"
-
-CheckingTheSlotBusy::CheckingTheSlotBusy(WirelessNetwork* network, double time)
+// Zdarzenie czasowe rozpoczêcie nowej szczeliny czasowej w tym zdarzeniu nale¿y:
+//sprawdziæ czy jakaœ stacja bazowa oczekuje nowej szczeliny czasowej aby rozpocz¹æ transmisje z prawdopodobieñstwem Pt = 0,4
+CheckingTheSlotBusy::CheckingTheSlotBusy(WirelessNetwork* network, double time, TimeEventList* list)
 {
 	network_ = network;
 	time_ = time;
+	list_ = list;
 }
 
-void CheckingTheSlotBusy::Ececute()
+void CheckingTheSlotBusy::Execute()
 {
-	if (network_->GetCheckingTheChannelBusy())
+	event_ = new CheckingTheSlotBusy(network_, time_ + network_->GetCSCTime(), list_);
+	list_->AddTimeEvent(event_);
+	cerr << " NOWA SZCZELINA CZASOWA!" << endl;
+	if (network_->GetCheckingTheChannelBusy())// ponowne sprawdzenie statusu kana³u w nowej szczelinie czasowej
 	{
 		unsigned size_of_vector = network_->GetSizeOfVector();
-		int id_actual_element;
-		for (unsigned i = 0; i < size_of_vector; i++)
-		{
-			id_actual_element = network_->GetBaseStationWaitingNewSlot(i);
-			PT_ = rand() % 10 + 1;
-			if (PT_ <= 4) //wysylamy 
+		if (size_of_vector != 0) {// warunek ze jeœli vektor staci czekaj¹cych na kolejna szczeline czasowa jest pusty to ma siê nic nie dziaæ
+			int id_actual_element;
+			for (unsigned i = 0; i < size_of_vector; i++)
 			{
-				if (network_->GetCheckingTheChannelBusy())
+				id_actual_element = network_->GetBaseStationWaitingNewSlot(i);
+				PT_ = rand() % 10 + 1;
+				if (PT_ <= 4) //wysylamy 
 				{
 					network_->SentPackageBaseStationToRecivingStation(id_actual_element);
+					time_temp_ = (rand() % 10) + 1;
+					event_ = new EndOfPackageTransmission(network_, list_, time_temp_);
+					list_->AddTimeEvent(event_);
+					event_ = new CheckAckMessage(network_, time_temp_+1, id_actual_element);
+					list_->AddTimeEvent(event_);
 					network_->DeleteBaseStationWaitingNewSlot(i); //zaplanuj wystapienie kolejnej szczeliny czasowej
-					break;
+					//break;
 				}
-				else  //wystapienie zdarzenia warunkowego, kolizja
+				else  //nie wysy³amy pakietu
 				{
-					Channel* tmp = network_->ReturnChannel();
-					Package* tmp2 = tmp->ReturnCurrentPackage();
-					tmp->DeleteCurrentPackage();
-					if (tmp2->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision())
-					{
-						tmp2->IncrementLR();
-						network_->SentPackageToRetransmission(tmp2); //zaplanuj kolejne zdarzenie czasowe, wygenerowanie CRP
-						
-					}
-					else
-					{
-						delete tmp2;
-						cerr << "The package deleted [Package retransmission limit exceeded]" << endl;
-					}
 
-					tmp2 = network_->GetPackageFromBaseStation(id_actual_element);
-
-					if (tmp2->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision())
-					{
-						tmp2->IncrementLR();
-						network_->SentPackageToRetransmission(tmp2); //zaplanuj kolejne zdarzenie czasowe, wygenerowanie CRP
-
-					}
-					else
-					{
-						delete tmp2;
-						cerr << "The package deleted [Package retransmission limit exceeded]" << endl;
-					}
 				}
-				
-				
-			}
-
-			else //zaplanuj wystapienie kolejnej szczeliny czasowej
-			{
 
 			}
-
 		}
-
+		else
+		{
+			cerr << "zadna stacja bazowa nie chce wys³aæ pakietu wiêc w tej szczelinie nic siê nie dzieje kana³ by³ wolny!" << endl;
+		}
 	}
-	else //zaplanuj wystapienie kolejnej szczeliny czasowej
+	else // Kana³ w nowej szczeinie czasowej by³ zajêty nale¿y wiêc usun¹æ z wektora stacje czekaj¹ce na kolejn¹ szczeline czasow¹ i dodaæ zdrzenie czasowe nas³uchiwania kana³u
 	{
-
+		size_of_vector_ = network_->GetSizeOfVector();
+		if (size_of_vector_ != 0) {
+			for (unsigned i = 0; i < size_of_vector_; i++)
+			{
+				id_actual_element_ = network_->GetBaseStationWaitingNewSlot(i);
+				cerr << "zapalnowanie kolejnego zdarzenia sprawdzania kana³u (kana³ sta³ siê zajêty po czasie)" << "id base station: " << id_actual_element_ << endl;
+				TimeEvent* new_time_event = new CheckingTheChannelBusy(network_, list_, id_actual_element_, time_ + 1, true);
+				list_->AddTimeEvent(new_time_event);
+				network_->DeleteBaseStationWaitingNewSlot(i);
+			}
+			///dodac wszystkie stacje nadawacze ¿eby czeka³y na wolny kanal i odpuytywaly co 1 ms
+		}
+		else
+		{
+			cerr << "zadna stacja bazowa nie chce wys³aæ pakietu wiêc w tej szczelinie nic siê nie dzieje kana³ by³ zajêty!" << endl;
+		}
 	}
 }
 
