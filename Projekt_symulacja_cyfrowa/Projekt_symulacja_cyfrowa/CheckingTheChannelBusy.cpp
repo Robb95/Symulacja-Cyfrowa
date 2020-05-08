@@ -47,18 +47,8 @@ void CheckingTheChannelBusy::Execute()
 			time_temp_ = (rand() % 10) + 1;
 			event_ = new EndOfPackageTransmission(network_, list_, time_temp_+time_);
 			list_->AddTimeEvent(event_);
-			event_ = new CheckAckMessage(network_, (time_temp_+1+time_), id_base_station_);
+			event_ = new CheckAckMessage(network_, list_,(time_temp_+1+time_), id_base_station_);
 			list_->AddTimeEvent(event_);
-			if (network_->IsTheBuforInBaseStationIsEmpty(id_base_station_))
-			{
-				network_->DeleteBaseStationCheckingChannel(id_base_station_);
-			}
-			else
-			{
-				event_ = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_+0.5, false);
-				list_->AddTimeEvent(event_);
-			}
-
 		}
 		else //nie wysylamy, planujemy kolejn¹ próbê przes³ania pakietu na kolejn¹ woln¹ szczeline
 		{

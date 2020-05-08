@@ -1,10 +1,11 @@
 #include "CheckAckMessage.h"
 
-CheckAckMessage::CheckAckMessage(WirelessNetwork* network, double time,int id_base_station)
+CheckAckMessage::CheckAckMessage(WirelessNetwork* network, TimeEventList* list, double time,int id_base_station)
 {
   network_ = network;
   id_base_station_ = id_base_station;
   time_ = time;
+  list_ = list;
 
 }
 
@@ -17,6 +18,8 @@ void CheckAckMessage::Execute()
 		if (package_->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision()) // sprawdzanie czy pakiet przekroczy³ maksymaln¹ liczbê retransmisji
 		{
 		package_->IncrementLR();
+    double time = time_ + (((rand() % 10) + 1) * (rand() % 2 ^ package_->ReturnNumberCurrentRetransmission() - 1));
+    TimeEvent* event_ = new CheckingTheChannelBusy(network_, list_, package_->ReturnIdBaseStation(), time, false);
 		network_->SentPackageToRetransmission(package_); 
 		}
 		else // przekroczona iloœæ dostêpnych retransmisji - nale¿y usun¹æ pakiet
@@ -53,7 +56,6 @@ void CheckAckMessage::Execute()
         save.close();
       }
     }
-		cerr << "The ACK message was delivered correctly. " << endl;
 	}
 }
 

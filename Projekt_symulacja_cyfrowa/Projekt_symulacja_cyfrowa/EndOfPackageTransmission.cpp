@@ -11,7 +11,6 @@ EndOfPackageTransmission::EndOfPackageTransmission(WirelessNetwork* network, Tim
 void EndOfPackageTransmission::Execute()
 {
 	temp_ = channel_->GetVectorSize();
-	cerr << temp_ << endl;
 	if (temp_ <= 1)// brak kolizji (przesy³amy wiadomoœæ ACK)
 	{
 		package_ = channel_->ReturnCurrentPackage(channel_->GetIdPackageFromVector(0));
@@ -30,6 +29,8 @@ void EndOfPackageTransmission::Execute()
 			}
 		}
 		
+		event_ = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_ + 0.5, false);
+		list_->AddTimeEvent(event_);
 		network_->AddPackageToReceivingStation(id_base_station_, package_);
 		//zdarzenie warunkowe wys³anie wiadomoœci ACK oraz zaplanowanie zdarzenia czasowego konca przesy³ania wiadomoœci ACK
 		channel_->SendAckMessage();
@@ -58,6 +59,9 @@ void EndOfPackageTransmission::Execute()
 			if (package_->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision())
 			{
 				package_->IncrementLR();
+				double time= time_ + (((rand() % 10) + 1) * (rand() % 2 ^ package_->ReturnNumberCurrentRetransmission() - 1));
+				event_ = new CheckingTheChannelBusy(network_, list_, package_->ReturnIdBaseStation(), time, false);
+				list_->AddTimeEvent(event_);
 				network_->SentPackageToRetransmission(package_);
 
 			}

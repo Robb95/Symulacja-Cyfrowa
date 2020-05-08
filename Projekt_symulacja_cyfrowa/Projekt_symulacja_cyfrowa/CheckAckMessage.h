@@ -2,13 +2,15 @@
 #define CHECKACKMESSAGE_H
 #include "TimeEvent.h"
 #include "WirelessNetwork.h"
+#include "TimeEventList.h"
+#include "CheckingTheChannelBusy.h"
 
 
 class CheckAckMessage :
   public TimeEvent
 {
 public:
-  CheckAckMessage(WirelessNetwork* network, double time, int id_base_station);
+  CheckAckMessage(WirelessNetwork* network, TimeEventList* list, double time, int id_base_station);
 void Execute();
 double GetTime();
 void Print();
@@ -18,6 +20,7 @@ private:
   double time_;
   int id_base_station_;
   Package* package_;
+  TimeEventList* list_;
   int id_ = 1;
 };
 #endif

@@ -27,7 +27,6 @@ void CheckingTheSlotBusy::Execute()
 	}
 		if (network_->GetCheckingTheChannelBusy())// ponowne sprawdzenie statusu kana³u w nowej szczelinie czasowej
 		{
-			//unsigned size_of_vector = network_->GetSizeOfVector();
 			if (network_->GetSizeOfVector() != 0)
 			{// Warunek ze jeœli wektor stacji oczekuj¹cych na kolejna szczeline czasowa jest pusty to ma siê nic nie dziaæ
 				
@@ -41,7 +40,6 @@ void CheckingTheSlotBusy::Execute()
 						{
 							if (network_->GetTypePrint() == 1)
 							{
-								cerr << id_actual_element_ << endl;
 								cerr << "The packet should be sent (PT<0.4) by the base station with id: " << id_actual_element_ << endl;
 							}
 							else
@@ -55,17 +53,9 @@ void CheckingTheSlotBusy::Execute()
 						time_temp_ = (rand() % 10) + 1;
 						event_ = new EndOfPackageTransmission(network_, list_, time_temp_ + time_);
 						list_->AddTimeEvent(event_);
-						event_ = new CheckAckMessage(network_, time_temp_ + time_ + 1, id_actual_element_);
+						event_ = new CheckAckMessage(network_,list_, time_temp_ + time_ + 1, id_actual_element_);
 						list_->AddTimeEvent(event_);
 						temp_vector_for_delete_elemnts_.push_back(i);
-						//network_->DeleteBaseStationWaitingNewSlot(i);
-						if (!(network_->IsTheBuforInBaseStationIsEmpty(id_actual_element_)))
-						{
-							event_ = new CheckingTheChannelBusy(network_, list_, id_actual_element_, time_ + 0.5, false);
-							list_->AddTimeEvent(event_);
-						}
-						//zaplanuj wystapienie kolejnej szczeliny czasowej
-						//break;
 					}
 					else  //nie wysy³amy pakietu 
 					{
@@ -84,19 +74,12 @@ void CheckingTheSlotBusy::Execute()
 						}
 					}
 				}
-				for (unsigned i = 0; i <
-					
-					temp_vector_for_delete_elemnts_.size(); i++)
+				for (unsigned i = 0; i <temp_vector_for_delete_elemnts_.size(); i++)
 				{
-					cerr << i << endl;
-					cerr << temp_vector_for_delete_elemnts_.size() << endl;
-					cerr << temp_vector_for_delete_elemnts_[i] << endl;
 					sort(temp_vector_for_delete_elemnts_.begin(), temp_vector_for_delete_elemnts_.end());
 					network_->DeleteBaseStationWaitingNewSlot(temp_vector_for_delete_elemnts_[temp_vector_for_delete_elemnts_.size()-i-1]);
 				}
 				temp_vector_for_delete_elemnts_.clear();
-				//cin.get();
-				
 				}
 			else// brak czekajacych stacji do nadania
 			{
@@ -120,12 +103,10 @@ void CheckingTheSlotBusy::Execute()
 	else // Kana³ w nowej szczeinie czasowej by³ zajêty nale¿y wiêc usun¹æ z wektora stacje czekaj¹ce na kolejn¹ szczeline czasow¹ i dodaæ zdrzenie czasowe nas³uchiwania kana³u
 	{
 		
-		//size_of_vector_ = network_->GetSizeOfVector();
 		if (network_->GetSizeOfVector() != 0) {
 			for (unsigned i = 0; i < network_->GetSizeOfVector(); i++)
 			{
 				// kana³ sta³ sie zajety i powinny sie pojawic zdarzenia nas³uchiwania kana³u
-				cerr << "The channel became busy and should have appeard to listening to the channel." << endl;
 				id_actual_element_ = network_->GetBaseStationWaitingNewSlot(i);
 				TimeEvent* new_time_event = new CheckingTheChannelBusy(network_, list_, id_actual_element_, time_ + 1, true);
 				list_->AddTimeEvent(new_time_event);

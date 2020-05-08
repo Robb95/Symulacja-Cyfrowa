@@ -22,13 +22,7 @@ Package* Channel::ReturnCurrentPackage(int id)
 			return temp_;
 		}
 	}
-	cerr << " ERROR on channel, there was no package with the specified id. " << endl;
-}
 
-void Channel::DeleteCurrentPackage(int id)
-{
-	//..for(unsigned)
-	//current_package_ = nullptr;
 }
 
 bool Channel::GetCheckingTheChannelBusy()

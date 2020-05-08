@@ -27,7 +27,6 @@ void TimeEventList::AddTimeEvent(TimeEvent* event)
 		while (temp_->GetTime() < event->GetTime())
 		{
 			temp_ = temp_->next_;
-			//if(temp_->GetTime() <= event->GetTime())
 		}
 		event->next_ = temp_;
 		event->previous_ = temp_->previous_;
@@ -93,6 +92,5 @@ void TimeEventList::DeleteCheckACK()// to zdarzenie jest wywo³ywane tylko w mome
 		temp_->previous_->next_ = nullptr;
 		temp_->previous_ = nullptr;
 		delete temp_;
-		//temp_->next_->previous_ = temp_->previous_;
 	}
 }

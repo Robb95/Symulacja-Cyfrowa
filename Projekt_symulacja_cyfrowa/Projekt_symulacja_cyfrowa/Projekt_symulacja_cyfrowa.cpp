@@ -70,7 +70,7 @@ int main()
     }
     time_event = new CheckingTheSlotBusy(wireless_network, 0, time_event_list); // pierwsza szczelina czasowa jest generowana z czasem zero
     time_event_list->AddTimeEvent(time_event);
-    while(wireless_network->GetSystemTime() < 2000)
+    while(wireless_network->GetSystemTime() < 200)
     {
      time_event = time_event_list->GetFirst();
      wireless_network->SetSystemTime(time_event->GetTime());
@@ -92,18 +92,20 @@ int main()
          save.close();
        }
      }
-     time_event_list->PrintTimeEventList();
+
      if (type_info < 3)
      {
        if (type_print == 1)
        {
          cerr << "---------------------------------------------------" << endl;
+         time_event_list->PrintTimeEventList();
          cerr << "---------------------------------------------------" << endl;
        }
        else
        {
          ofstream save("logs.txt", ios_base::app);
          save << "---------------------------------------------------" << endl;
+         time_event_list->PrintTimeEventList();
          save << "---------------------------------------------------" << endl;
          save.close();
        }

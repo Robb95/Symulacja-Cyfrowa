@@ -11,7 +11,6 @@ GeneratePackage::GeneratePackage(WirelessNetwork* network, double time,int id_ba
 
 void GeneratePackage::Execute()
 {
-	// TUTAJ DODAÆ MECHANIZM ODPOWIEDNIEGO WYSWIETALANA
 	if (network_->GetTypeInfo() == 2)
 	{
 		if (network_->GetTypePrint() == 1)

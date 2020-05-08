@@ -42,9 +42,6 @@
     <ClCompile Include="GeneratePackage.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="ErrorTER.cpp">
-      <Filter>TimeEvent.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="TimeEvent.cpp">
       <Filter>TimeEvent.cpp</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
     <ClInclude Include="GeneratePackage.h">
-      <Filter>TimeEvent.h</Filter>
-    </ClInclude>
-    <ClInclude Include="ErrorTER.h">
       <Filter>TimeEvent.h</Filter>
     </ClInclude>
     <ClInclude Include="CheckingTheChannelBusy.h">
