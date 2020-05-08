@@ -103,12 +103,11 @@ bool WirelessNetwork::ACKConfirmBaseStation(int id)
 		if (ACK_confirm_[i] == id)
 		{
 			ACK_confirm_.erase(ACK_confirm_.begin() + i);
-			cerr << "Pakiet zostal poprawnie dostarczony" << endl;
+		
 			return true;
 		}
 		
 	}
-	cerr << "Pakiet nie zostal poprawnie dostarczony" << endl;
 	return false;
 }
 
@@ -227,6 +226,26 @@ bool WirelessNetwork::GetInfoAboutACKInReceivingStation(int id)
 Package* WirelessNetwork::GetPackageTer(int id)
 {
 	return receiving_station_[id]->SendToRetransmission();
+}
+
+int WirelessNetwork::GetTypeInfo()
+{
+	return type_info_;
+}
+
+int WirelessNetwork::GetTypePrint()
+{
+	return type_print_;
+}
+
+bool WirelessNetwork::IsTheBuforInBaseStationIsEmpty(int id)
+{
+	return base_stations_[id]->TheBuforIsEmpty();
+}
+
+void WirelessNetwork::ClearVector()
+{
+	base_station_waiting_new_slot_.clear();
 }
 
 

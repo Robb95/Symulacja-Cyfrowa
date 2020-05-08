@@ -12,10 +12,12 @@ public:
 	void Execute();
 	double GetTime();
 	void Print();
+	int ReturnId();
 private:
 	double time_;
 	WirelessNetwork* network_;
 	int id_base_station_;
 	TimeEventList* event_;
+	int id_ = 0;
 };
 #endif

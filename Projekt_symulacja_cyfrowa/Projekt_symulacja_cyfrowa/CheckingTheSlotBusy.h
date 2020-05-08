@@ -14,6 +14,7 @@ public:
 	void Execute();
 	double GetTime();
 	void Print();
+	int ReturnId();
 private:
 	double time_;
 	WirelessNetwork* network_;
@@ -21,8 +22,10 @@ private:
 	int PT_;
 	TimeEvent* event_;
 	unsigned size_of_vector_;
-	int id_actual_element_;
 	double time_temp_;
+	int id_ = 0;
+	int id_actual_element_;
+	vector<int> temp_vector_for_delete_elemnts_;
 };
 #endif
 

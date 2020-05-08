@@ -13,12 +13,16 @@ Package* Channel::ReturnCurrentPackage(int id)
 		if (current_package_[i]->ReturnIdPackage() == id)
 		{
 			temp_ = current_package_[i];
-			channel_availability_ = true;// do sprawdzenia w razie kolizji warunek dodaæ !!
+			
 			current_package_.erase(current_package_.begin() + i);
+			if (current_package_.empty())
+			{
+				channel_availability_ = true;	// do sprawdzenia w razie kolizji warunek dodaæ !!
+			}
 			return temp_;
 		}
 	}
-	cerr << " B£¥D w kanae nie by³o pakietu o okreœlonym id " << endl;
+	cerr << " ERROR on channel, there was no package with the specified id. " << endl;
 }
 
 void Channel::DeleteCurrentPackage(int id)
@@ -29,16 +33,13 @@ void Channel::DeleteCurrentPackage(int id)
 
 bool Channel::GetCheckingTheChannelBusy()
 {
-	cerr << "Sprawdzanie zajêtoœci kana³u 1-true " << channel_availability_;
 	return channel_availability_;
 }
 
 void Channel::AddPackageToChannel(Package* current_package)
 {
-	cerr << "dodano pakiet do kana³u id pakeitu " << current_package->ReturnIdPackage() << endl;
 	current_package_.push_back(current_package);
 	channel_availability_ = false;
-	cerr << " POWINNA NASTP¥PIC ZMIANA KANA£U " << channel_availability_ << endl;
 }
 
 unsigned Channel::GetVectorSize()

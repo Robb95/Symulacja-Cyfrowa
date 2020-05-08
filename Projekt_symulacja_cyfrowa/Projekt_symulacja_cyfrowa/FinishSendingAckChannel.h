@@ -10,10 +10,12 @@ public:
   void Execute();
 	 double GetTime();
 	 void Print();
+   int ReturnId();
 private:
   int id_base_station_;
   WirelessNetwork* network_;
   Channel* channel_;
   double time_;
+  int id_;
 };
 

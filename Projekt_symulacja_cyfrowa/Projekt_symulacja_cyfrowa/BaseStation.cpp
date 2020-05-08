@@ -45,4 +45,9 @@ bool BaseStation::GetAckMessage()
 	return temp_;
 }
 
+bool BaseStation::TheBuforIsEmpty()
+{
+	return package_.empty();
+}
+
 

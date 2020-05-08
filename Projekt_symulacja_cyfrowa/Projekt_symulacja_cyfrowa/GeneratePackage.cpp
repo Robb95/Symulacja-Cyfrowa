@@ -12,7 +12,20 @@ GeneratePackage::GeneratePackage(WirelessNetwork* network, double time,int id_ba
 void GeneratePackage::Execute()
 {
 	// TUTAJ DODAÆ MECHANIZM ODPOWIEDNIEGO WYSWIETALANA
-	cerr << "Generowanie pakietu w staci o id: " << id_base_station_ << " czas: " << time_ << endl;
+	if (network_->GetTypeInfo() == 2)
+	{
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "Generating a packet at the station with id: " << id_base_station_ << " time: " << time_ << endl;
+		}
+		else
+		{
+			ofstream save("logs.txt", ios_base::app);
+			save << "Generating a packet at the station with id: " << id_base_station_ << " time: " << time_ << endl;
+			save.close();
+		}
+	}
+
 	Package* packet = new Package(id_base_station_,network_->GetIdGeneratedPackage());
 	network_->GenerateSentPackage(packet,id_base_station_);
 	TimeEvent* genarte_new_package = new GeneratePackage(network_, time_+5, id_base_station_, event_);
@@ -34,5 +47,22 @@ double GeneratePackage::GetTime()
 
 void GeneratePackage::Print()
 {
-	cerr << " Generate package: "<< time_ << "Id base station: "<< id_base_station_ << endl;
+	if (network_->GetTypeInfo() < 3)
+	{
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "Generate package: " << time_ << " ID base station: " << id_base_station_ << endl;
+		}
+		else
+		{
+			ofstream save("logs.txt", ios_base::app);
+			save << "Generate package time: " << time_ << " ID base station: " << id_base_station_ << endl;
+			save.close();
+		}
+	}
+}
+
+int GeneratePackage::ReturnId()
+{
+	return id_;
 }

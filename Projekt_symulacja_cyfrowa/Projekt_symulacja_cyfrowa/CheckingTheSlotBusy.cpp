@@ -1,6 +1,6 @@
 #include "CheckingTheSlotBusy.h"
 // Zdarzenie czasowe rozpoczêcie nowej szczeliny czasowej w tym zdarzeniu nale¿y:
-//sprawdziæ czy jakaœ stacja bazowa oczekuje nowej szczeliny czasowej aby rozpocz¹æ transmisje z prawdopodobieñstwem Pt = 0,4
+//sprawdziæ czy jakaœ stacja bazowa oczekuje nowej szczeliny czasowej aby rozpocz¹æ transmisje z prawdopodobieñstwem PT = 0,4
 CheckingTheSlotBusy::CheckingTheSlotBusy(WirelessNetwork* network, double time, TimeEventList* list)
 {
 	network_ = network;
@@ -12,57 +12,127 @@ void CheckingTheSlotBusy::Execute()
 {
 	event_ = new CheckingTheSlotBusy(network_, time_ + network_->GetCSCTime(), list_);
 	list_->AddTimeEvent(event_);
-	cerr << " NOWA SZCZELINA CZASOWA!" << endl;
-	if (network_->GetCheckingTheChannelBusy())// ponowne sprawdzenie statusu kana³u w nowej szczelinie czasowej
+	if (network_->GetTypeInfo() == 2)
 	{
-		unsigned size_of_vector = network_->GetSizeOfVector();
-		if (size_of_vector != 0) {// warunek ze jeœli vektor staci czekaj¹cych na kolejna szczeline czasowa jest pusty to ma siê nic nie dziaæ
-			int id_actual_element;
-			for (unsigned i = 0; i < size_of_vector; i++)
-			{
-				id_actual_element = network_->GetBaseStationWaitingNewSlot(i);
-				PT_ = rand() % 10 + 1;
-				if (PT_ <= 4) //wysylamy 
-				{
-					network_->SentPackageBaseStationToRecivingStation(id_actual_element);
-					time_temp_ = (rand() % 10) + 1;
-					event_ = new EndOfPackageTransmission(network_, list_, time_temp_);
-					list_->AddTimeEvent(event_);
-					event_ = new CheckAckMessage(network_, time_temp_+1, id_actual_element);
-					list_->AddTimeEvent(event_);
-					network_->DeleteBaseStationWaitingNewSlot(i); //zaplanuj wystapienie kolejnej szczeliny czasowej
-					//break;
-				}
-				else  //nie wysy³amy pakietu
-				{
-
-				}
-
-			}
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "New time slot. " << endl;
 		}
 		else
 		{
-			cerr << "zadna stacja bazowa nie chce wys³aæ pakietu wiêc w tej szczelinie nic siê nie dzieje kana³ by³ wolny!" << endl;
+			ofstream save("logs.txt", ios_base::app);
+			save << "New time slot" << endl;
+			save.close();
 		}
+	}
+		if (network_->GetCheckingTheChannelBusy())// ponowne sprawdzenie statusu kana³u w nowej szczelinie czasowej
+		{
+			//unsigned size_of_vector = network_->GetSizeOfVector();
+			if (network_->GetSizeOfVector() != 0)
+			{// Warunek ze jeœli wektor stacji oczekuj¹cych na kolejna szczeline czasowa jest pusty to ma siê nic nie dziaæ
+				
+				for (unsigned i = 0; i < network_->GetSizeOfVector(); i++)
+				{
+					id_actual_element_ = network_->GetBaseStationWaitingNewSlot(i);
+					PT_ = rand() % 10 + 1;
+					if (PT_ <= 4) //wysylamy 
+					{
+						if (network_->GetTypeInfo() == 2)
+						{
+							if (network_->GetTypePrint() == 1)
+							{
+								cerr << id_actual_element_ << endl;
+								cerr << "The packet should be sent (PT<0.4) by the base station with id: " << id_actual_element_ << endl;
+							}
+							else
+							{
+								ofstream save("logs.txt", ios_base::app);
+								save << "The packet should be sent (PT<0.4) by the base station with id: " << id_actual_element_ << endl;
+								save.close();
+							}
+						}
+						network_->SentPackageBaseStationToRecivingStation(id_actual_element_);
+						time_temp_ = (rand() % 10) + 1;
+						event_ = new EndOfPackageTransmission(network_, list_, time_temp_ + time_);
+						list_->AddTimeEvent(event_);
+						event_ = new CheckAckMessage(network_, time_temp_ + time_ + 1, id_actual_element_);
+						list_->AddTimeEvent(event_);
+						temp_vector_for_delete_elemnts_.push_back(i);
+						//network_->DeleteBaseStationWaitingNewSlot(i);
+						if (!(network_->IsTheBuforInBaseStationIsEmpty(id_actual_element_)))
+						{
+							event_ = new CheckingTheChannelBusy(network_, list_, id_actual_element_, time_ + 0.5, false);
+							list_->AddTimeEvent(event_);
+						}
+						//zaplanuj wystapienie kolejnej szczeliny czasowej
+						//break;
+					}
+					else  //nie wysy³amy pakietu 
+					{
+						if (network_->GetTypeInfo() == 2)
+						{
+							if (network_->GetTypePrint() == 1)
+							{
+								cerr << "the package should not be sent" << id_actual_element_ << endl;
+							}
+							else
+							{
+								ofstream save("logs.txt", ios_base::app);
+								save << "the package should not be sent" << id_actual_element_ << endl;
+								save.close();
+							}
+						}
+					}
+				}
+				for (unsigned i = 0; i <
+					
+					temp_vector_for_delete_elemnts_.size(); i++)
+				{
+					cerr << i << endl;
+					cerr << temp_vector_for_delete_elemnts_.size() << endl;
+					cerr << temp_vector_for_delete_elemnts_[i] << endl;
+					sort(temp_vector_for_delete_elemnts_.begin(), temp_vector_for_delete_elemnts_.end());
+					network_->DeleteBaseStationWaitingNewSlot(temp_vector_for_delete_elemnts_[temp_vector_for_delete_elemnts_.size()-i-1]);
+				}
+				temp_vector_for_delete_elemnts_.clear();
+				//cin.get();
+				
+				}
+			else// brak czekajacych stacji do nadania
+			{
+				if (network_->GetTypeInfo() == 2)
+				{
+					if (network_->GetTypePrint() == 1)
+					{
+						cerr << "No base station was waiting for a new slot" << endl;
+					}
+					else
+					{
+						ofstream save("logs.txt", ios_base::app);
+						save << "No base station was waiting for a new slot" << endl;
+						save.close();
+					}
+				}
+			}
+		
+
 	}
 	else // Kana³ w nowej szczeinie czasowej by³ zajêty nale¿y wiêc usun¹æ z wektora stacje czekaj¹ce na kolejn¹ szczeline czasow¹ i dodaæ zdrzenie czasowe nas³uchiwania kana³u
 	{
-		size_of_vector_ = network_->GetSizeOfVector();
-		if (size_of_vector_ != 0) {
-			for (unsigned i = 0; i < size_of_vector_; i++)
+		
+		//size_of_vector_ = network_->GetSizeOfVector();
+		if (network_->GetSizeOfVector() != 0) {
+			for (unsigned i = 0; i < network_->GetSizeOfVector(); i++)
 			{
+				// kana³ sta³ sie zajety i powinny sie pojawic zdarzenia nas³uchiwania kana³u
+				cerr << "The channel became busy and should have appeard to listening to the channel." << endl;
 				id_actual_element_ = network_->GetBaseStationWaitingNewSlot(i);
-				cerr << "zapalnowanie kolejnego zdarzenia sprawdzania kana³u (kana³ sta³ siê zajêty po czasie)" << "id base station: " << id_actual_element_ << endl;
 				TimeEvent* new_time_event = new CheckingTheChannelBusy(network_, list_, id_actual_element_, time_ + 1, true);
 				list_->AddTimeEvent(new_time_event);
-				network_->DeleteBaseStationWaitingNewSlot(i);
+				
 			}
-			///dodac wszystkie stacje nadawacze ¿eby czeka³y na wolny kanal i odpuytywaly co 1 ms
 		}
-		else
-		{
-			cerr << "zadna stacja bazowa nie chce wys³aæ pakietu wiêc w tej szczelinie nic siê nie dzieje kana³ by³ zajêty!" << endl;
-		}
+		network_->ClearVector();
 	}
 }
 
@@ -73,5 +143,22 @@ double CheckingTheSlotBusy::GetTime()
 
 void CheckingTheSlotBusy::Print()
 {
-	cerr << " Checking the slot busy: " << time_ << endl;
+	if (network_->GetTypeInfo() < 3)
+	{
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "New time slot, time: "<<time_ << endl;
+		}
+		else
+		{
+			ofstream save("logs.txt", ios_base::app);
+			save << "New time slot, time: "<<time_ << endl;
+			save.close();
+		}
+	}
+}
+
+int CheckingTheSlotBusy::ReturnId()
+{
+	return id_;
 }

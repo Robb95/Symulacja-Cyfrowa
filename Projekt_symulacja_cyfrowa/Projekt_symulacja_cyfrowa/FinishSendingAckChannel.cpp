@@ -21,5 +21,22 @@ double FinishSendingAckChannel::GetTime()
 
 void FinishSendingAckChannel::Print()
 {
-  cerr << "FinishSendingAckChannel time: " <<time_ << endl;
+	if (network_->GetTypeInfo() < 3)
+	{
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "Finish sending ACK channel, time: " << time_ << endl;
+		}
+		else
+		{
+			ofstream save("logs.txt", ios_base::app);
+			save << "Finish sending ACK channel, time: " << time_ << endl;
+			save.close();
+		}
+	}
+}
+
+int FinishSendingAckChannel::ReturnId()
+{
+	return id_;
 }

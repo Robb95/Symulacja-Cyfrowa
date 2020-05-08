@@ -14,10 +14,11 @@ public:
     Package* SentPackageBaseStationToReceivingStation();
     void SetAckMessage();
     bool GetAckMessage();
+    bool TheBuforIsEmpty();
     
 private:
     int id_base_station_; // variable describing the number of the base station
-    const int kCTIZ_time_=5; // constant describing ACK pickup time
+    // const int kCTIZ_time_=5; // constant describing ACK pickup time
     double CGPK_rand_; // random variable describing the package generation time
     bool ACK_message_;
     bool temp_;

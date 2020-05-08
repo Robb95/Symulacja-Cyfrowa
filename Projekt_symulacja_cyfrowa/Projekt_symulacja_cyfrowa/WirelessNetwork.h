@@ -33,12 +33,16 @@ public:
     void SetSystemTime(double time);
     void AddBaseStationCheckingChannel(int id);
     bool ChechkBaseStationCheckingChannel(int id);
-    void DeleteBaseStationCheckingChannel(int id);//Nie zapomnieæ u¿yæ przy tymm jak stacja wyœle pakiet!
+    void DeleteBaseStationCheckingChannel(int id);  //Nie zapomnieæ u¿yæ przy tymm jak stacja wyœle pakiet!
     double GetCSCTime();
     void AddPackageToReceivingStation(int id,Package* packet);
     void SetInfoAboutACKInReceivingStation(int id);
     bool GetInfoAboutACKInReceivingStation(int id);
     Package* GetPackageTer(int id);
+    int GetTypeInfo();
+    int GetTypePrint();
+    bool IsTheBuforInBaseStationIsEmpty(int id);
+    void ClearVector();
 private:
     double system_time_; // variable describing the overall system time
     const int kNumberOfStations_=3; // constant describing the number of base stations
@@ -55,6 +59,5 @@ private:
     int id_of_the_currently_generated_package_;
     const double CSC_time_=1;
 };
-
 #endif;
 

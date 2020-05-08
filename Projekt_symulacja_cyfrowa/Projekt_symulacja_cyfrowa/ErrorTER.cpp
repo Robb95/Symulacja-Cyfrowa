@@ -1,6 +1,6 @@
 #include "ErrorTER.h"
 
-
+// narazie zostaje
 ErrorTER::ErrorTER(WirelessNetwork* network, double time)
 {
 	network_ = network;
@@ -19,9 +19,10 @@ void ErrorTER::Print()
 
 void ErrorTER::Execute()
 {
+	  
 	Channel* tmp = network_->ReturnChannel();
 	Package* tmp2 = tmp->ReturnCurrentPackage(1);
-	tmp->DeleteCurrentPackage(1);// œmieci !
+	tmp->DeleteCurrentPackage(1);
 	if (tmp2->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision())
 	{
 		tmp2->IncrementLR();
@@ -30,6 +31,6 @@ void ErrorTER::Execute()
 	else
 	{
 		delete tmp2;    //zdarzenie warunkowe usuwanie pakietu po nadmiernej ilosci retransmisji
-		cerr << "The package deleted [Package retransmission limit exceeded]" << endl;
+		cerr << "The package deleted (Package retransmission limit exceeded). " << endl;
 	}
 }

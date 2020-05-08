@@ -14,6 +14,7 @@ public:
 	void Execute();
 	double GetTime();
 	void Print();
+	int ReturnId();
 private:
 	double time_;
 	WirelessNetwork* network_;
@@ -23,7 +24,7 @@ private:
 	int temp_;
 	Package* package_;
 	int id_base_station_;
-
+	int id_ = 1;
 };
 #endif
 

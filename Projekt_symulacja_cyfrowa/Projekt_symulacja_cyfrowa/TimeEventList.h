@@ -7,10 +7,12 @@ class TimeEventList
 public:
 	void AddTimeEvent(TimeEvent* event);        //add a new element on the TimeEventList
 	TimeEvent* GetFirst();			            //get first element from TimeEventList
-	void PrintTimeEventList();	//print elements from TimeEventList
+	void PrintTimeEventList();					//print elements from TimeEventList
+	void DeleteCheckACK();
 private:
 	TimeEvent* first_;
 	TimeEvent* last_;
 	TimeEvent* temp_;
+	bool condition_=false;
 };
 #endif

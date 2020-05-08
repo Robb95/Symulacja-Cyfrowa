@@ -24,9 +24,10 @@ void TimeEventList::AddTimeEvent(TimeEvent* event)
 
 	else {
 		temp_ = first_;
-		while (temp_->GetTime() <= event->GetTime())
+		while (temp_->GetTime() < event->GetTime())
 		{
 			temp_ = temp_->next_;
+			//if(temp_->GetTime() <= event->GetTime())
 		}
 		event->next_ = temp_;
 		event->previous_ = temp_->previous_;
@@ -55,4 +56,43 @@ void TimeEventList::PrintTimeEventList()
 	}
 	temp_ -> Print();
 	
+}
+
+void TimeEventList::DeleteCheckACK()// to zdarzenie jest wywo³ywane tylko w momencie kiedy wyst¹pi³a kolizja
+{
+
+	temp_ = first_;
+	condition_ = true;
+	while (temp_!=last_)
+	{
+		if (temp_->ReturnId() == 1)
+		{
+			if (temp_ == first_)
+			{
+				first_ = temp_->next_;
+				temp_->next_->previous_ = nullptr;
+				temp_->next_ = nullptr;
+				delete temp_;
+				temp_ = first_;
+				condition_ = false;
+			}
+			else
+			{
+				temp_->previous_->next_ = temp_->next_;
+				temp_->next_->previous_ = temp_->previous_;
+			}
+		}
+		else condition_ = true;
+		if (condition_ ==true) {
+			temp_ = temp_->next_;
+		}
+	}
+	if (temp_->ReturnId() == 1)
+	{
+		last_ = temp_->previous_;
+		temp_->previous_->next_ = nullptr;
+		temp_->previous_ = nullptr;
+		delete temp_;
+		//temp_->next_->previous_ = temp_->previous_;
+	}
 }

@@ -8,6 +8,7 @@ class TimeEvent
 public:
 	virtual void Execute() = 0;
 	virtual double GetTime()=0;
+	virtual int ReturnId()=0;
 	TimeEvent* next_;
 	TimeEvent* previous_;
 	virtual void Print()=0;

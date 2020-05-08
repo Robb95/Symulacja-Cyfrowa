@@ -12,39 +12,94 @@ CheckingTheChannelBusy::CheckingTheChannelBusy(WirelessNetwork* network, TimeEve
 
 void CheckingTheChannelBusy::Execute()
 {
-	cerr << "Kana³ jest odpytywane przez stacje nadawcza o id: " << id_base_station_ << endl;
+	if (network_->GetTypeInfo() ==2 )
+	{
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "Checking channel status by base station with id: " << id_base_station_ << endl;
+		}
+		else
+		{
+			ofstream save("logs.txt", ios_base::app);
+			save << "Checking channel status by base station with id: " << id_base_station_ << endl;
+			save.close();
+		}
+	}
 	if (network_->GetCheckingTheChannelBusy())   //KANAL WOLNY sprawdzay obecn¹ szczeline czasow¹ czy stacja ma wys³aæ pakiet 
 	{
 		PT_ = rand()%10+1;
 		if (PT_ <= 4) //wysylamy
 		{
-			cerr << " Pakiet powienien zostaæ przes³any pt mniejsze badz rowne 0.4 " << endl;
+			if (network_->GetTypeInfo() == 2)
+			{
+				if (network_->GetTypePrint() == 1)
+				{
+					cerr << "The packet should be sent (PT<0.4) by the base station with id: " << id_base_station_ << endl;
+				}
+				else
+				{
+					ofstream save("logs.txt", ios_base::app);
+					save << "The packet should be sent (PT<0.4) by the base station with id: " << id_base_station_ << endl;
+					save.close();
+				}
+			}
 			network_->SentPackageBaseStationToRecivingStation(id_base_station_);
 			time_temp_ = (rand() % 10) + 1;
-			event_ = new EndOfPackageTransmission(network_, list_, time_temp_);
+			event_ = new EndOfPackageTransmission(network_, list_, time_temp_+time_);
 			list_->AddTimeEvent(event_);
-			event_ = new CheckAckMessage(network_, time_temp_+1, id_base_station_);
+			event_ = new CheckAckMessage(network_, (time_temp_+1+time_), id_base_station_);
 			list_->AddTimeEvent(event_);
-			network_->DeleteBaseStationCheckingChannel(id_base_station_);
-			// Dodaæ warunek ze je¿eli nie jest pusty bufor to odrazu wygenerwaæ zdarzenie ( do przemyslenia jeszcze xD)
+			if (network_->IsTheBuforInBaseStationIsEmpty(id_base_station_))
+			{
+				network_->DeleteBaseStationCheckingChannel(id_base_station_);
+			}
+			else
+			{
+				event_ = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_+0.5, false);
+				list_->AddTimeEvent(event_);
+			}
+
 		}
 		else //nie wysylamy, planujemy kolejn¹ próbê przes³ania pakietu na kolejn¹ woln¹ szczeline
 		{
-			cerr << " Pakiet NIE powienien zostaæ przes³any - czzekamy na nastêpn¹ szczeline czasow¹. " << endl;
+			if (network_->GetTypeInfo() == 2)
+			{
+				if (network_->GetTypePrint() == 1)
+				{
+					cerr << "The packet should NOT be sent (PT<0.4) by the base station with id: " << id_base_station_ << endl;
+				}
+				else
+				{
+					ofstream save("logs.txt", ios_base::app);
+					save << "The packet should NOT be sent (PT<0.4) by the base station with id: " << id_base_station_ << endl;
+					save.close();
+				}
+			}			
 			network_->AddToBaseStationWaitingNewSlot(id_base_station_);
 		}
 	}
-	else // zaplanuj kolejne zdarzenie czasowe (sprawdzenie zajetosci kanalu) KANAL ZAJETY 
+	else // zaplanuj kolejne zdarzenie czasowe (sprawdzenie zajetosci kanalu), KANAL ZAJETY 
 	{
+		if (network_->GetTypeInfo() == 2)
+		{
+			if (network_->GetTypePrint() == 1)
+			{
+				cerr << "Chanel was busy. " << id_base_station_ << endl;
+			}
+			else
+			{
+				ofstream save("logs.txt", ios_base::app);
+				save << "Chanel was busy. "  << id_base_station_ << endl;
+				save.close();
+			}
+		}
 		if (first_check_ == false)//stacja bazowa sprawdza kana³ pierwszy raz i odrazu jest zajêty - kolejne sprawdzenie po 0.5 ms
 		{
-			cerr << "zapalnowanie kolejnego zdarzenia sprawdzania kana³u (pierwszy raz)" << "id base station: "<<id_base_station_<< endl;
 			TimeEvent* new_time_event = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_ + 0.5, false);
 			list_->AddTimeEvent(new_time_event);
 		}
 		else// stacja bazowa sprawdza³a kana³ i sta³ siê zajêty w kolejnej szczelinie czasowej - kolejne sprawdzanie po 1 ms
 		{
-			cerr << "zapalnowanie kolejnego zdarzenia sprawdzania kana³u (kana³ sta³ siê zajêty po czasie)" << "id base station: " << id_base_station_ << endl;
 			TimeEvent* new_time_event = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_ + 1, true);
 			list_->AddTimeEvent(new_time_event);
 		}
@@ -58,5 +113,22 @@ double CheckingTheChannelBusy::GetTime()
 
 void CheckingTheChannelBusy::Print()
 {
-	cerr << " Checking the channel busy: " << time_ << "id stacji bazowej: " << id_base_station_ << endl;
+	if (network_->GetTypeInfo() < 3)
+	{
+		if (network_->GetTypePrint() == 1)
+		{
+			cerr << "Channel check by base station with id: " << id_base_station_ << " time: " << time_ << endl;
+		}
+		else
+		{
+			ofstream save("logs.txt", ios_base::app);
+			save << "Channel check by base station with id: " << id_base_station_ << " time: " << time_ << endl;
+			save.close();
+		}
+	}
+}
+
+int CheckingTheChannelBusy::ReturnId()
+{
+	return id_;
 }

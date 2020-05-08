@@ -1,0 +1,4 @@
+System initialization: 
+Number of base stations and receiving station: 3
+System initialization: 
+Number of base stations and receiving station: 3
