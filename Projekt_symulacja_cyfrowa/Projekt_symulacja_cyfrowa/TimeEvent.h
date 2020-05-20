@@ -12,6 +12,7 @@ public:
 	TimeEvent* next_;
 	TimeEvent* previous_;
 	virtual void Print()=0;
+	virtual int ReturnIdBaseStation()=0;
 
 };
 #endif

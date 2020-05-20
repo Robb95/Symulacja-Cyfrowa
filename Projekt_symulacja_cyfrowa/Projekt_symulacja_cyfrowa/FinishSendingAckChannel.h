@@ -11,6 +11,7 @@ public:
 	 double GetTime();
 	 void Print();
    int ReturnId();
+   int ReturnIdBaseStation();
 private:
   int id_base_station_;
   WirelessNetwork* network_;

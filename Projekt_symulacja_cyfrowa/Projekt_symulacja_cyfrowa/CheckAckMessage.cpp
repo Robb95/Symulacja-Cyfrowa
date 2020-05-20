@@ -14,12 +14,30 @@ void CheckAckMessage::Execute()
     //Sprawdzenie czy wiadomosc ACK zosta³a dostarczona poprawnie (obs³uga b³êdu TER)
 	if (!(network_->GetInfoAboutACKInReceivingStation(id_base_station_))) 
 	{//Nie
+    //cerr << id_base_station_ << endl;
 	package_ = network_->GetPackageTer(id_base_station_);
 		if (package_->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision()) // sprawdzanie czy pakiet przekroczy³ maksymaln¹ liczbê retransmisji
 		{
+      if (network_->GetTypeInfo() == 2)
+      {
+        if (network_->GetTypePrint() == 1)
+        {
+          cerr << "Packet sent for retransmission : " << id_base_station_ << endl;
+        }
+        else
+        {
+          ofstream save("logs.txt", ios_base::app);
+          save << "Packet sent for retransmission : " << id_base_station_ << endl;
+          save.close();
+        }
+      }
 		package_->IncrementLR();
-    double time = time_ + (((rand() % 10) + 1) * (rand() % 2 ^ package_->ReturnNumberCurrentRetransmission() - 1));
+    //list_->DeleteCheckChannel(id_base_station_);
+    int temp = 2 ^ package_->ReturnNumberCurrentRetransmission() - 1;
+    int seed = network_->GetSeedForTimeTransmission(id_base_station_);
+    double time = time_ + network_->UniformGeneratorRange(temp, 0, seed, id_base_station_);
     TimeEvent* event_ = new CheckingTheChannelBusy(network_, list_, package_->ReturnIdBaseStation(), time, false);
+    list_->AddTimeEvent(event_);
 		network_->SentPackageToRetransmission(package_); 
 		}
 		else // przekroczona iloœæ dostêpnych retransmisji - nale¿y usun¹æ pakiet
@@ -56,6 +74,11 @@ void CheckAckMessage::Execute()
         save.close();
       }
     }
+    package_ = network_->GetPackageTer(id_base_station_);
+    network_->IncrementAllPackage();
+    network_->AddAverageRetransmission(package_->ReturnNumberCurrentRetransmission());
+    network_->AddAverageBufforTime(package_->GetAvergeExitBuffor());
+    network_->AddAverageFinishTime(package_->GetAverageReceiving());
 	}
 }
 
@@ -84,4 +107,9 @@ void CheckAckMessage::Print()
 int CheckAckMessage::ReturnId()
 {
   return id_;
+}
+
+int CheckAckMessage::ReturnIdBaseStation()
+{
+  return -1;
 }

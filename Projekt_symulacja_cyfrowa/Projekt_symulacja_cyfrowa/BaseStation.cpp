@@ -1,9 +1,12 @@
 #include "BaseStation.h"
-
+#include <iostream>
+using namespace std;
 BaseStation::BaseStation(int id)
 {
 	id_base_station_ = id;
 	ACK_message_ = false;
+	error_rate_=0;
+	all_rate_=0;
 }
 
 void BaseStation::AddToBaseStation(Package* packet)
@@ -17,12 +20,13 @@ void BaseStation::SetPackageToRetransmission(Package* get_package_to_retransmiss
 	get_package_to_retransmission_ = get_package_to_retransmission;
 }
 
-Package* BaseStation::SentPackageBaseStationToReceivingStation()
+Package* BaseStation::SentPackageBaseStationToReceivingStation(double time)
 {
 	if (get_package_to_retransmission_ == nullptr)
 	{
 		temp_package_ = package_.front();
 		package_.pop();
+		temp_package_->SaveExitBuffor(time);
 		return temp_package_;
 	}
 	else
@@ -49,5 +53,28 @@ bool BaseStation::TheBuforIsEmpty()
 {
 	return package_.empty();
 }
+
+double BaseStation::GetAverageErrorRate()
+{
+		return error_rate_ / all_rate_;
+}
+
+void BaseStation::ResetStatistic()
+{
+	error_rate_ = 0;
+	all_rate_ = 0;
+}
+
+void BaseStation::AddErorRate()
+{
+	error_rate_++;
+}
+
+void BaseStation::AddAllRate()
+{
+	all_rate_++;
+}
+
+
 
 

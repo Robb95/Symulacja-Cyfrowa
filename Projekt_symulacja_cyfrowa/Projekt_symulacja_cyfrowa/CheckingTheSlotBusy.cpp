@@ -49,8 +49,9 @@ void CheckingTheSlotBusy::Execute()
 								save.close();
 							}
 						}
-						network_->SentPackageBaseStationToRecivingStation(id_actual_element_);
-						time_temp_ = (rand() % 10) + 1;
+						network_->SentPackageBaseStationToRecivingStation(id_actual_element_,time_);
+						int seed = network_->GetSeedForTimeTransmission(id_actual_element_);
+						time_temp_ = network_->UniformGeneratorRange(10, 1, seed, id_actual_element_);
 						event_ = new EndOfPackageTransmission(network_, list_, time_temp_ + time_);
 						list_->AddTimeEvent(event_);
 						event_ = new CheckAckMessage(network_,list_, time_temp_ + time_ + 1, id_actual_element_);
@@ -142,4 +143,9 @@ void CheckingTheSlotBusy::Print()
 int CheckingTheSlotBusy::ReturnId()
 {
 	return id_;
+}
+
+int CheckingTheSlotBusy::ReturnIdBaseStation()
+{
+  return -1;
 }

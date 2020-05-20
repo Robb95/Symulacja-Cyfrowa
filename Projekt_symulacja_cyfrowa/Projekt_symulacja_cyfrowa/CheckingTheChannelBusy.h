@@ -14,6 +14,7 @@ public:
 	double GetTime();
 	void Print();
 	int ReturnId();
+	int ReturnIdBaseStation();
 private:
 	double time_;
 	WirelessNetwork* network_;
@@ -23,7 +24,7 @@ private:
 	TimeEvent* event_;
 	bool first_check_;
 	int time_temp_;
-	int id_ = 0;
+	int id_ = 2;
 
 };
 #endif

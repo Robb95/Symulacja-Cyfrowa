@@ -40,3 +40,8 @@ int FinishSendingAckChannel::ReturnId()
 {
 	return id_;
 }
+
+int FinishSendingAckChannel::ReturnIdBaseStation()
+{
+  return -1;
+}

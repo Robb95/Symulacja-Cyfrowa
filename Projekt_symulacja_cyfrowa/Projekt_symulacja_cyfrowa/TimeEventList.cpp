@@ -94,3 +94,5 @@ void TimeEventList::DeleteCheckACK()// to zdarzenie jest wywo³ywane tylko w mome
 		delete temp_;
 	}
 }
+
+

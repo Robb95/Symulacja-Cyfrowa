@@ -11,11 +11,14 @@ public:
     ~BaseStation() = default; // default desctructor
     void AddToBaseStation(Package* packet);
     void SetPackageToRetransmission(Package* get_package_to_retransmission);
-    Package* SentPackageBaseStationToReceivingStation();
+    Package* SentPackageBaseStationToReceivingStation(double time);
     void SetAckMessage();
     bool GetAckMessage();
     bool TheBuforIsEmpty();
-    
+    double GetAverageErrorRate();
+    void ResetStatistic();
+    void AddErorRate();
+    void AddAllRate();
 private:
     int id_base_station_; // variable describing the number of the base station
     // const int kCTIZ_time_=5; // constant describing ACK pickup time
@@ -26,6 +29,8 @@ private:
     bool start_transmiting_; // variable specifying the start of transmission by the base station
     Package* get_package_to_retransmission_; // pointer one the package ready to rertansmission
     Package* temp_package_;
+    double error_rate_;
+    double all_rate_ ;
 };
 #endif
 

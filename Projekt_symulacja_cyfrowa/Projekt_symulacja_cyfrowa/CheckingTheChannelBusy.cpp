@@ -43,8 +43,9 @@ void CheckingTheChannelBusy::Execute()
 					save.close();
 				}
 			}
-			network_->SentPackageBaseStationToRecivingStation(id_base_station_);
-			time_temp_ = (rand() % 10) + 1;
+			network_->SentPackageBaseStationToRecivingStation(id_base_station_,time_);
+			int seed = network_->GetSeedForTimeTransmission(id_base_station_);
+			time_temp_ = network_->UniformGeneratorRange(10,1,seed,id_base_station_);
 			event_ = new EndOfPackageTransmission(network_, list_, time_temp_+time_);
 			list_->AddTimeEvent(event_);
 			event_ = new CheckAckMessage(network_, list_,(time_temp_+1+time_), id_base_station_);
@@ -121,4 +122,9 @@ void CheckingTheChannelBusy::Print()
 int CheckingTheChannelBusy::ReturnId()
 {
 	return id_;
+}
+
+int CheckingTheChannelBusy::ReturnIdBaseStation()
+{
+	return id_base_station_;
 }

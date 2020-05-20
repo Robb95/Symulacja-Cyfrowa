@@ -26,6 +26,18 @@ WirelessNetwork::WirelessNetwork(int type_info, int type_print)
 
 }
 
+WirelessNetwork::~WirelessNetwork()
+{
+	for (int i = 0; i < base_stations_.size(); i++)
+	{
+
+	}
+//	delete[] base_stations_;
+//		tmp
+	//	receiving_station_
+	//	channel_
+}
+
 
 
 void WirelessNetwork::GenerateSentPackage(Package* packet, int id_base_station)
@@ -53,9 +65,9 @@ bool WirelessNetwork::GetCheckingTheChannelBusy()
 	return channel_->GetCheckingTheChannelBusy();
 }
 
-void WirelessNetwork::SentPackageBaseStationToRecivingStation(int id_base_station)
+void WirelessNetwork::SentPackageBaseStationToRecivingStation(int id_base_station,double time)
 {
-	tmp=base_stations_[id_base_station]->SentPackageBaseStationToReceivingStation();
+	tmp=base_stations_[id_base_station]->SentPackageBaseStationToReceivingStation(time);
 	channel_->AddPackageToChannel(tmp);
 }
 
@@ -86,10 +98,6 @@ int WirelessNetwork::SentPackageToReceivingStation(Package* current_package)
 	return tmp;
 }
 
-Package* WirelessNetwork::GetPackageFromBaseStation(int id_base_station)
-{
-	return base_stations_[id_base_station]->SentPackageBaseStationToReceivingStation();
-}
 
 void WirelessNetwork::AddACKFromReceivingStation(int id)
 {
@@ -246,6 +254,169 @@ bool WirelessNetwork::IsTheBuforInBaseStationIsEmpty(int id)
 void WirelessNetwork::ClearVector()
 {
 	base_station_waiting_new_slot_.clear();
+}
+
+double WirelessNetwork::UniformGenerator(int& seed, int id, bool condition)
+{
+	int h = seed / kQ;
+	seed = kA * (seed - kQ * h) - kR * h;
+	if (condition == false)
+	{
+		if (id >= 0)seeds_for_time_transmission_[id] = seed;
+		else channel_seed_=seed;
+	}
+	else
+	{
+		seeds_for_packet_generation_[id] = seed;
+	}
+	if (seed < 0)seed = seed + static_cast<int>(kM);
+
+
+	return seed / kM;
+}
+
+double WirelessNetwork::UniformGeneratorRange(int maks, int min, int& seed,int id)
+{
+	return UniformGenerator(seed,id,false) * (maks - min) + min;
+}
+
+double WirelessNetwork::ExponentialGenerator(double lambda, int& seed, int id)
+{
+	return -(1.0 / lambda) * log(UniformGenerator(seed, id,true));
+}
+
+int WirelessNetwork::ZeroOneGenerator(double p, int& seed, int id)
+{
+
+	if (UniformGenerator(seed, -1, false) < p)return 1;
+	else return 0;
+}
+
+double WirelessNetwork::UniformGenerator2(int& seed)
+{
+	int h = seed / kQ;
+	seed = kA * (seed - kQ * h) - kR * h;
+	if (seed < 0)seed = seed + static_cast<int>(kM);
+
+	return seed / kM;
+}
+
+double WirelessNetwork::UniformGeneratorRange2(int maks, int min, int& seed)
+{
+	return UniformGenerator2(seed) * (maks - min) + min;
+}
+
+double WirelessNetwork::ExponentialGenerator2(double lambda, int& seed)
+{
+	return -(1.0 / lambda) * log(UniformGenerator2(seed));
+}
+
+void WirelessNetwork::AddSeedForTimeTransmision(int seed)
+{
+	seeds_for_time_transmission_.push_back(seed);
+}
+
+void WirelessNetwork::AddSeedForPacketGeneration(int seed)
+{
+	seeds_for_packet_generation_.push_back(seed);
+}
+
+void WirelessNetwork::AddSeedForChannel(int seed)
+{
+	channel_seed_ = seed;
+}
+
+void WirelessNetwork::PrintSeedsForGenerationPackage()
+{
+	for (int i = 0; i < seeds_for_packet_generation_.size(); i++)
+	{
+		cerr << i << " " << seeds_for_packet_generation_[i] << endl;
+	}
+}
+
+int WirelessNetwork::GetSeedForTimeTransmission(int id)
+{
+	return seeds_for_time_transmission_[id];
+}
+
+int WirelessNetwork::GetSeedForGenerationPackage(int id)
+{
+	return seeds_for_packet_generation_[id];
+}
+
+int WirelessNetwork::GetSeedForChannel()
+{
+	return channel_seed_;
+}
+
+void WirelessNetwork::ResetStatistic()
+{
+	for (int i = 0; i < base_stations_.size(); i++)
+	{
+		base_stations_[i]->ResetStatistic();
+	}
+	
+	average_retransmission_ = 0;
+	all_package_ = 0;
+	average_packet_buffor_ = 0;
+	average_packet_finish_ = 0;
+}
+
+void WirelessNetwork::PrintStatistic()
+{
+	double sum=0;
+	double max=0;
+	for (int i = 0; i < base_stations_.size(); i++)
+	{
+		sum += base_stations_[i]->GetAverageErrorRate();
+		if (max < base_stations_[i]->GetAverageErrorRate())
+		{
+			max = base_stations_[i]->GetAverageErrorRate();
+		}
+	}
+	
+	cerr << "Srednia Pakietowa stopa bledow: " << sum / base_stations_.size() << endl;
+	cerr << "Maksymalna pakietowa stopa b³êdów: " << max << endl;
+	cerr << "Srednia Liczba retransmisji pakietow: " << average_retransmission_ / all_package_ << endl;
+	cerr << "Przeplywnosc systemu: " << all_package_ / system_time_ << endl;
+	cerr << "Srednie opoznienie pakietu pojawienie sie w buforze - opuszczenie: " << average_packet_buffor_ / all_package_ << endl;
+	cerr << "Sredni czas oczekiwania pojawienia sie w buforze - opuszczenie: " << average_packet_finish_ / all_package_ << endl;
+}
+
+void WirelessNetwork::AddErrorRate(int id)
+{
+	base_stations_[id]->AddErorRate();
+}
+
+void WirelessNetwork::AddAllRate(int id)
+{
+	base_stations_[id]->AddAllRate();
+}
+
+void WirelessNetwork::AddAverageRetransmission(int number)
+{
+	average_retransmission_ += number;
+}
+
+void WirelessNetwork::IncrementAllPackage()
+{
+	all_package_++;
+	correctly_received_packet_++;
+}
+
+void WirelessNetwork::AddAverageBufforTime(double time)
+{
+	average_packet_buffor_ += time;
+}
+
+void WirelessNetwork::AddAverageFinishTime(double time)
+{
+	average_packet_finish_ += time;
+}
+
+int WirelessNetwork::GetPackageCondition()
+{
+	return correctly_received_packet_;
 }
 
 
