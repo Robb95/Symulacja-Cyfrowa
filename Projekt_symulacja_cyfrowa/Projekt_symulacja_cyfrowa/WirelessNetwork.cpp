@@ -375,9 +375,9 @@ void WirelessNetwork::PrintStatistic()
 		}
 	}
 	
-	cerr << "Srednia Pakietowa stopa bledow: " << sum / base_stations_.size() << endl;
-	cerr << "Maksymalna pakietowa stopa b³êdów: " << max << endl;
-	cerr << "Srednia Liczba retransmisji pakietow: " << average_retransmission_ / all_package_ << endl;
+	cerr << "Srednia pakietowa stopa bledow: " << sum / base_stations_.size() << endl;
+	cerr << "Maksymalna pakietowa stopa bledow: " << max << endl;
+	cerr << "Srednia liczba retransmisji pakietow: " << average_retransmission_ / all_package_ << endl;
 	cerr << "Przeplywnosc systemu: " << all_package_ / system_time_ << endl;
 	cerr << "Srednie opoznienie pakietu pojawienie sie w buforze - opuszczenie: " << average_packet_buffor_ / all_package_ << endl;
 	cerr << "Sredni czas oczekiwania pojawienia sie w buforze - opuszczenie: " << average_packet_finish_ / all_package_ << endl;
