@@ -56,6 +56,8 @@ bool BaseStation::TheBuforIsEmpty()
 
 double BaseStation::GetAverageErrorRate()
 {
+	//cerr << "id: " << this->id_base_station_ << " error rate: " << error_rate_ << " all rate " << all_rate_ << endl;
+	if (error_rate_ == 0)return 0;
 		return error_rate_ / all_rate_;
 }
 

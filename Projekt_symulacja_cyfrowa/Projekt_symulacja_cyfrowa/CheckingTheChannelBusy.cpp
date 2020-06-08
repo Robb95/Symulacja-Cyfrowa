@@ -43,6 +43,8 @@ void CheckingTheChannelBusy::Execute()
 					save.close();
 				}
 			}
+			network_->AddToBaseStationWaitingNewSlot(id_base_station_);
+			/*
 			network_->SentPackageBaseStationToRecivingStation(id_base_station_,time_);
 			int seed = network_->GetSeedForTimeTransmission(id_base_station_);
 			time_temp_ = network_->UniformGeneratorRange(10,1,seed,id_base_station_);
@@ -50,6 +52,7 @@ void CheckingTheChannelBusy::Execute()
 			list_->AddTimeEvent(event_);
 			event_ = new CheckAckMessage(network_, list_,(time_temp_+1+time_), id_base_station_);
 			list_->AddTimeEvent(event_);
+			*/
 		}
 		else //nie wysylamy, planujemy kolejn¹ próbê przes³ania pakietu na kolejn¹ woln¹ szczeline
 		{

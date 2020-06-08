@@ -29,8 +29,8 @@ void GeneratePackage::Execute()
 	packet->SaveGeneratedTime(time_);
 	network_->GenerateSentPackage(packet,id_base_station_);
 	int seed = network_->GetSeedForGenerationPackage(id_base_station_);
-	double time_for_generate_package = network_->ExponentialGenerator(0.1, seed, id_base_station_);
-	TimeEvent* genarte_new_package = new GeneratePackage(network_, time_+5, id_base_station_, event_);
+	double time_for_generate_package = network_->ExponentialGenerator(0.3, seed, id_base_station_);
+	TimeEvent* genarte_new_package = new GeneratePackage(network_, time_+ time_for_generate_package, id_base_station_, event_);
 	event_->AddTimeEvent(genarte_new_package);
 	//zaplanowaæ zdarzenie czasowe sprawdzenia zajêtoœci kana³u. Przy wygenerwoaniu pakietu sprawdzenie kana³u odbywa siê natychmiastowo
 	if (!(network_->ChechkBaseStationCheckingChannel(id_base_station_)))// funkcja sprawdzaj¹ca czy dana stacja bazowa ju¿ sprawdza kana³

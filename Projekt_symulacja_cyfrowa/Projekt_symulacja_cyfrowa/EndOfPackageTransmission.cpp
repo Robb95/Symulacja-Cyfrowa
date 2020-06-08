@@ -33,20 +33,22 @@ void EndOfPackageTransmission::Execute()
 		//zdarzenie warunkowe wys³anie wiadomoœci ACK oraz zaplanowanie zdarzenia czasowego konca przesy³ania wiadomoœci ACK
 		network_->AddPackageToReceivingStation(id_base_station_, package_);
 		int seed = network_->GetSeedForChannel();
-		if (network_->ZeroOneGenerator(0.7, seed,-1))
+		if (network_->ZeroOneGenerator(0.8, seed,-1))
 		{
 			package_->SaveReceivingTime(time_);
+			network_->DeleteBaseStationCheckingChannel(package_->ReturnIdBaseStation());
 			network_->AddAllRate(id_base_station_);
 			channel_->SendAckMessage();
 			event_ = new FinishSendingAckChannel(network_, id_base_station_, time_ + 1);
 			list_->AddTimeEvent(event_);
-			event_ = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_ + 0.5, false);
-			list_->AddTimeEvent(event_);
+			//event_ = new CheckingTheChannelBusy(network_, list_, id_base_station_, time_ + 0.5, false);
+			//list_->AddTimeEvent(event_);
+
 		}
 		else
 		{
 
-			network_->AddErrorRate(id_base_station_);
+
 			if (network_->GetTypeInfo() ==2 )
 			{
 				if (network_->GetTypePrint() == 1)
@@ -106,6 +108,8 @@ void EndOfPackageTransmission::Execute()
 						save.close();
 					}
 				}
+					network_->AddErrorRate(package_->ReturnIdBaseStation());
+					network_->DeleteBaseStationCheckingChannel(package_->ReturnIdBaseStation());
 				delete package_;
 			}
 		}

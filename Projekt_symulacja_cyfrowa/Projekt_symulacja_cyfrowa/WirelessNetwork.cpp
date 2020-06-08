@@ -28,14 +28,9 @@ WirelessNetwork::WirelessNetwork(int type_info, int type_print)
 
 WirelessNetwork::~WirelessNetwork()
 {
-	for (int i = 0; i < base_stations_.size(); i++)
-	{
-
-	}
-//	delete[] base_stations_;
-//		tmp
-	//	receiving_station_
-	//	channel_
+	receiving_station_.clear();
+	base_stations_.clear();
+	delete channel_;
 }
 
 
@@ -378,7 +373,7 @@ void WirelessNetwork::PrintStatistic()
 	cerr << "Srednia pakietowa stopa bledow: " << sum / base_stations_.size() << endl;
 	cerr << "Maksymalna pakietowa stopa bledow: " << max << endl;
 	cerr << "Srednia liczba retransmisji pakietow: " << average_retransmission_ / all_package_ << endl;
-	cerr << "Przeplywnosc systemu: " << all_package_ / system_time_ << endl;
+	cerr << "Przeplywnosc systemu: " << all_package_ / (system_time_/1000) << endl;
 	cerr << "Srednie opoznienie pakietu pojawienie sie w buforze - opuszczenie: " << average_packet_buffor_ / all_package_ << endl;
 	cerr << "Sredni czas oczekiwania pojawienia sie w buforze - opuszczenie: " << average_packet_finish_ / all_package_ << endl;
 }
@@ -417,6 +412,16 @@ void WirelessNetwork::AddAverageFinishTime(double time)
 int WirelessNetwork::GetPackageCondition()
 {
 	return correctly_received_packet_;
+}
+
+double WirelessNetwork::GetInitialPhase()
+{
+	double sum = 0;
+	for (int i = 0; i < base_stations_.size(); i++)
+	{
+		sum += base_stations_[i]->GetAverageErrorRate();
+	}
+	return sum/kNumberOfStations_;
 }
 
 

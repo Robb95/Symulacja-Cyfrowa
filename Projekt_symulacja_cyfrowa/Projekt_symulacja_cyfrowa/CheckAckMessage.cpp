@@ -11,6 +11,9 @@ CheckAckMessage::CheckAckMessage(WirelessNetwork* network, TimeEventList* list, 
 
 void CheckAckMessage::Execute()
 {
+  ofstream save("InitialPhase.txt", ios_base::app);
+  save << network_->GetSystemTime() << " " << network_->GetInitialPhase() << endl;
+  save.close();
     //Sprawdzenie czy wiadomosc ACK zosta³a dostarczona poprawnie (obs³uga b³êdu TER)
 	if (!(network_->GetInfoAboutACKInReceivingStation(id_base_station_))) 
 	{//Nie
@@ -55,6 +58,8 @@ void CheckAckMessage::Execute()
                 save.close();
             }
         }
+        network_->AddErrorRate(package_->ReturnIdBaseStation());
+        network_->DeleteBaseStationCheckingChannel(package_->ReturnIdBaseStation());
 		delete package_;
 		}
 	}
