@@ -50,7 +50,7 @@ int main()
     int tab[10] = { 0 };
     int tab2[100] = { 0 };
     double temp_chart;
-    bool chart;
+    bool chart=false;
     vector<int> seeds;
     int seed = 5;
     bool condition1 = true;
@@ -70,9 +70,9 @@ int main()
     {
       WirelessNetwork* wireless_network = new WirelessNetwork(type_info, type_print);
       if (first == true) {
-        cerr << "Do you want to save data to charts (1-yes, 0-no)" << endl;
+        //cerr << "Do you want to save data to charts (1-yes, 0-no)" << endl;
 
-        cin >> chart;
+        //cin >> chart;
         if (chart == 1) {
 
           for (int i = 0; i < 20000000; i++)
@@ -258,7 +258,7 @@ int main()
       delete wireless_network;
       delete time_event_list;
       cerr << endl;
-      // }
+      
     }
     return 0;
 }
