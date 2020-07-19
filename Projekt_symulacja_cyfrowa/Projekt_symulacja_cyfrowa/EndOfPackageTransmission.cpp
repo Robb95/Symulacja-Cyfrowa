@@ -37,7 +37,7 @@ void EndOfPackageTransmission::Execute()
 		{
 			package_->SaveReceivingTime(time_);
 			network_->DeleteBaseStationCheckingChannel(package_->ReturnIdBaseStation());
-			network_->AddAllRate(id_base_station_);
+			network_->AddAllRate(id_base_station_); //zmienna zapisujaca poprawnie dostarczone pakiety
 			channel_->SendAckMessage();
 			event_ = new FinishSendingAckChannel(network_, id_base_station_, time_ + 1);
 			list_->AddTimeEvent(event_);
@@ -92,7 +92,7 @@ void EndOfPackageTransmission::Execute()
 				network_->SentPackageToRetransmission(package_);
 
 			}
-			else
+			else //przekroczona liczba retransmisji
 			{
 				if (network_->GetTypeInfo() == 2)
 				{

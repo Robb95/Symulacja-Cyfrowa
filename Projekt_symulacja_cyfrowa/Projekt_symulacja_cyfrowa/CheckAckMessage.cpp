@@ -16,7 +16,7 @@ void CheckAckMessage::Execute()
   save.close();
     //Sprawdzenie czy wiadomosc ACK zosta³a dostarczona poprawnie (obs³uga b³êdu TER)
 	if (!(network_->GetInfoAboutACKInReceivingStation(id_base_station_))) 
-	{//Nie
+	{//Nie dotara wiadomosc ACK
     //cerr << id_base_station_ << endl;
 	package_ = network_->GetPackageTer(id_base_station_);
 		if (package_->ReturnNumberCurrentRetransmission() < network_->ReturnkAmountOfRetransmision()) // sprawdzanie czy pakiet przekroczy³ maksymaln¹ liczbê retransmisji
